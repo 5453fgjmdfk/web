@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <link rel="stylesheet" href="css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>所有热门景点 - 江门市数字地图</title>
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="江门市所有热门景点，包括名人故居和纪念地。探索中国侨都的历史文化、名人故居和旅游景点。">
+    <meta name="keywords" content="江门,数字地图,侨乡文化,名人故居,旅游景点,历史文化,广东旅游,所有景点">
+    <meta name="author" content="江门市数字地图">
+    <meta property="og:title" content="所有热门景点 - 江门市数字地图">
+    <meta property="og:description" content="探索中国侨都的所有热门景点，感受江门的历史文化魅力">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="src/Background.jpg">
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='%23165DFF'/><path d='M16 8L20 14L26 16L20 18L16 24L12 18L6 16L12 14L16 8Z' fill='white'/><circle cx='16' cy='16' r='4' fill='%23FF7D00'/></svg>" type="image/svg+xml">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- 配置Tailwind CSS自定义颜色和字体 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#165DFF',
+                        secondary: '#36BFFA',
+                        accent: '#FF7D00',
+                        dark: '#1D2939',
+                        light: '#F9FAFB'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .fade-in {
+                animation: fadeIn 0.5s ease-in-out;
+            }
+            .slide-up {
+                animation: slideUp 0.5s ease-out;
+            }
+            .scale-in {
+                animation: scaleIn 0.3s ease-out;
+            }
+        }
+        
+        /* 动画定义 */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        @keyframes scaleIn {
+            from { transform: scale(0.95); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        
+        /* 自定义滚动条 */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 3px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+
+<body class="bg-light font-sans text-dark antialiased"
+    style="background-image: url('src/Background.jpg'); background-size: cover; background-position: center; background-attachment: fixed;">
+    <!-- 添加半透明遮罩层 -->
+    <div class="absolute inset-0 bg-black/20 z-[-1]"></div>
+    <header class="bg-white shadow-sm sticky top-0 z-[1000] transition-all duration-300">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fa fa-map-marker text-primary text-2xl"></i>
+                <h1 class="text-xl font-bold text-primary">江门市数字地图</h1>
+            </div>
+            <nav class="hidden md:flex items-center space-x-8">
+                <a href="index.html" class="text-dark hover:text-primary transition-colors duration-200 font-medium">首页</a>
+                <a href="all-spots.html" class="text-dark hover:text-primary transition-colors duration-200 font-medium">所有景点</a>
+                <a href="1.html" class="text-dark hover:text-primary transition-colors duration-200 font-medium">历史文化</a>
+                <a href="famous-people.html" class="text-dark hover:text-primary transition-colors duration-200 font-medium">名人风采</a>
+                <a href="micro-course.html" class="text-dark hover:text-primary transition-colors duration-200 font-medium">微课</a>
+                <a href="#contact" class="text-dark hover:text-primary transition-colors duration-200 font-medium">联系我们</a>
+            </nav>
+            <button class="md:hidden text-dark" id="menu-toggle">
+                <i class="fa fa-bars text-xl"></i>
+            </button>
+        </div>
+        <!-- 移动端菜单 -->
+        <div class="md:hidden hidden bg-white border-t" id="mobile-menu">
+            <div class="container mx-auto px-4 py-2 flex flex-col space-y-3">
+                <a href="index.html" class="py-2 text-dark hover:text-primary transition-colors duration-200 font-medium">首页</a>
+                <a href="all-spots.html"
+                    class="py-2 text-dark hover:text-primary transition-colors duration-200 font-medium">所有景点</a>
+                <a href="1.html"
+                    class="py-2 text-dark hover:text-primary transition-colors duration-200 font-medium">历史文化</a>
+                <a href="famous-people.html"
+                    class="py-2 text-dark hover:text-primary transition-colors duration-200 font-medium">名人风采</a>
+                <a href="micro-course.html"
+                    class="py-2 text-dark hover:text-primary transition-colors duration-200 font-medium">微课</a>
+                <a href="#contact"
+                    class="py-2 text-dark hover:text-primary transition-colors duration-200 font-medium">联系我们</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8">
+        <!-- 页面标题和返回按钮 -->
+        <section class="mb-8">
+            <div class="flex items-center space-x-4 mb-6">
+                <a href="index.html" class="text-primary hover:text-primary/80 transition-colors duration-200">
+                    <i class="fa fa-arrow-left text-xl"></i>
+                </a>
+                <h2 class="text-3xl font-bold text-dark">所有热门景点</h2>
+            </div>
+            <p class="text-gray-600 text-lg">探索江门市所有的名人故居和纪念地，感受侨乡文化的深厚底蕴。</p>
+        </section>
+
+        <!-- 所有景点展示 -->
+        <section>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="all-spots">
+                <!-- 景点卡片将通过JavaScript动态生成 -->
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-dark text-white py-12 mt-20" id="contact">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <i class="fa fa-map-marker text-primary text-2xl"></i>
+                        <h3 class="text-xl font-bold">江门市数字地图</h3>
+                    </div>
+                    <p class="text-gray-400 mb-4">探索中国侨都的数字之旅，感受江门的历史文化魅力。</p>
+                    <div class="flex space-x-4">
+                        <a href="https://weixin.qq.com" class="text-gray-400 hover:text-primary transition-colors duration-200"><i
+                                class="fa fa-weixin text-xl"></i></a>
+                        <a href="https://weibo.com" class="text-gray-400 hover:text-primary transition-colors duration-200"><i
+                                class="fa fa-weibo text-xl"></i></a>
+                        <a href="https://instagram.com" class="text-gray-400 hover:text-primary transition-colors duration-200"><i
+                                class="fa fa-instagram text-xl"></i></a>
+                        <a href="https://youtube.com" class="text-gray-400 hover:text-primary transition-colors duration-200"><i
+                                class="fa fa-youtube-play text-xl"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">快速链接</h4>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="text-gray-400 hover:text-white transition-colors duration-200">首页</a>
+                        </li>
+                        <li><a href="all-spots.html" class="text-gray-400 hover:text-white transition-colors duration-200">所有景点</a>
+                        </li>
+                        <li><a href="1.html" class="text-gray-400 hover:text-white transition-colors duration-200">历史文化</a>
+                        </li>
+                        <li><a href="famous-people.html" class="text-gray-400 hover:text-white transition-colors duration-200">名人风采</a>
+                        </li>
+                        <li><a href="gallery.html" class="text-gray-400 hover:text-white transition-colors duration-200">图片画廊</a>
+                        </li>
+                        <li><a href="#contact" class="text-gray-400 hover:text-white transition-colors duration-200">联系我们</a>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">联系我们</h4>
+                    <ul class="space-y-3">
+                        <li class="flex items-start space-x-3">
+                            <i class="fa fa-map-marker text-primary mt-1"></i>
+                            <span class="text-gray-400">广东省江门市蓬江区白沙大道西1号</span>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <i class="fa fa-phone text-primary"></i>
+                            <span class="text-gray-400">0750-1234567</span>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <i class="fa fa-envelope text-primary"></i>
+                            <span class="text-gray-400">info@jiangmen-map.com</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-10 pt-6 text-center text-gray-500">
+                <p>&copy; 2023 江门市数字地图. 保留所有权利.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 江门地区名人相关地点数据（与map.js中保持一致）
+        const locations = [
+            {
+                id: 1,
+                name: '陈荣衮故居',
+                description: '陈荣衮是晚清举人，光绪四年（1878年）中秀才，后在广州六榕寺附近设馆教学。他是我国提倡白话文的第一人，投身教育和编写妇孺课本，创办了多所学校，被誉为"东方之辈斯塔洛齐"（瑞士著名儿童教育实践家）。知名人士如冼玉清、陈德芸、利铭泽等均受业陈门。',
+                coordinates: [22.583000, 113.091000],
+                image: 'img/陈荣衮.jpg',
+                category: '名人故居',
+                rating: 4.6,
+                address: '江门市蓬江区'
+            },
+            {
+                id: 2,
+                name: '陈少白故居',
+                description: '陈少白是中国共产党党员，革命烈士。1943年从外地回到老家金子乡，与共产党员陈立洪等一起组织农会、三抗社和武工队，发动群众参加武装起义。1946年加入中国共产党，1947年任中共金子特支组织委员。1949年在重庆渣滓洞监狱的大屠杀中牺牲。',
+                coordinates: [22.521000, 113.068000],
+                image: 'img/陈少白.jpg',
+                category: '名人故居',
+                rating: 4.8,
+                address: '江门市新会区'
+            },
+            {
+                id: 3,
+                name: '陈伯坛故居',
+                description: '陈伯坛是清末举人，后专研中医，尤擅《伤寒论》，以六经气化学说阐释，重视阴阳理论，其观点对后学颇有启发。他在广州、香港行医期间，参与创办宏中医药专门学校，对近代岭南伤寒学发展贡献很大。',
+                coordinates: [22.591000, 113.102000],
+                image: 'img/陈伯坛.jpg',
+                category: '名人故居',
+                rating: 4.5,
+                address: '江门市蓬江区'
+            },
+            {
+                id: 4,
+                name: '陈冠时烈士纪念地',
+                description: '陈冠时是中国共产党党员，抗日英烈。1940年考入香港中国新闻学院并入党。1941年任东江抗日游击队宣传干事，香港沦陷后参加广东人民抗日游击队港九大队。1943年在掩护战友撤退时被俘牺牲，年仅21岁，后被追认为革命烈士。',
+                coordinates: [22.590000, 113.095000],
+                image: 'img/陈冠时.jpg',
+                category: '名人纪念',
+                rating: 4.9,
+                address: '江门市蓬江区'
+            },
+            {
+                id: 5,
+                name: '陈吾德故居',
+                description: '陈吾德生于明嘉靖十六年（1537年），自幼聪颖好学，师从名儒唐顺之。嘉靖三十八年（1559年）中进士，授翰林院编修。在朝为官期间，廉洁自守，不阿权贵，深得同僚敬佩。曾任国子监祭酒，提倡"教学相长"，注重培养学生的品德和才能。',
+                coordinates: [22.520000, 113.060000],
+                image: 'img/陈吾德.jpg',
+                category: '名人故居',
+                rating: 4.4,
+                address: '江门市新会区'
+            },
+            {
+                id: 6,
+                name: '陈大英烈士纪念地',
+                description: '陈大英是中国共产党党员，抗日英烈。1936年毕业于中山大学，同年加入中国共产党，并积极参与了广州的一二九运动。抗日战争爆发后，他积极组织抗日救亡活动，1945年在惠阳新圩不幸中弹遇难，年仅34岁。',
+                coordinates: [22.585000, 113.098000],
+                image: 'https://picsum.photos/seed/cdy/600/400',
+                category: '名人纪念',
+                rating: 4.8,
+                address: '江门市蓬江区'
+            },
+            {
+                id: 7,
+                name: '陈梦吉故居',
+                description: '陈梦吉是清末广东民间第一状师，被誉为"扭计祖宗"。他足智多谋，以惩恶扬善、助百姓申冤而著称，共有300余篇故事在民间广泛流传。其经典案例包括破解迷信、整治贪官、为民伸冤等，被列入省级非物质文化遗产名录。',
+                coordinates: [22.518000, 113.059000],
+                image: 'img/陈梦吉.jpg',
+                category: '名人故居',
+                rating: 4.7,
+                address: '江门市新会区'
+            },
+            {
+                id: 8,
+                name: '陈国泉纪念地',
+                description: '陈国泉是中国银行浙江省分行国际金融研究所的高级经济师。1964年毕业于浙江大学，同年8月至1981年1月从事核武器总体理论设计和试验工作，参与了原子弹和氢弹的系列项目，获得了国家自然科学奖、国家科学技术进步奖等九项荣誉。',
+                coordinates: [22.592000, 113.100000],
+                image: 'https://picsum.photos/seed/cgq/600/400',
+                category: '名人纪念',
+                rating: 4.6,
+                address: '江门市蓬江区'
+            },
+            {
+                id: 9,
+                name: '陈国强纪念地',
+                description: '陈国强是中国科学院院士，海南医学院院长。他的研究领域主要为白血病和实体肿瘤，为攻克这些疑难疾病做出了重要贡献。因其杰出的学术成就获得了国家自然科学奖二等奖等荣誉，成为医学界的佼佼者。',
+                coordinates: [22.590000, 113.105000],
+                image: 'img/陈国强.jpg',
+                category: '名人纪念',
+                rating: 4.7,
+                address: '江门市蓬江区'
+            }
+        ];
+
+        // 生成所有景点卡片
+        function generateAllSpots() {
+            const allSpotsContainer = document.getElementById('all-spots');
+            if (!allSpotsContainer) return;
+
+            // 一次性创建所有卡片的HTML内容
+            let cardsHTML = '';
+            locations.forEach(location => {
+                cardsHTML += `
+                    <div class="bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1 fade-in">
+                        <div class="relative">
+                            <img src="${location.image || 'https://picsum.photos/seed/default/600/400'}" alt="${location.name}" class="w-full h-48 object-cover">
+                            <div class="absolute top-3 right-3 bg-primary text-white text-sm px-2 py-1 rounded-full">
+                                ${location.category}
+                            </div>
+                        </div>
+                        <div class="p-5">
+                            <div class="flex justify-between items-center mb-2">
+                                <h4 class="text-lg font-bold text-dark">${location.name}</h4>
+                                <div class="flex items-center text-primary">
+                                    <i class="fa fa-star mr-1"></i>
+                                    <span>${location.rating}</span>
+                                </div>
+                            </div>
+                            <p class="text-gray-600 text-sm mb-4 line-clamp-3">${location.description}</p>
+                            <div class="flex items-center text-sm text-gray-500 mb-4">
+                                <span class="flex items-center"><i class="fa fa-map-marker mr-1"></i>${location.address}</span>
+                            </div>
+                            <a href="index.html?location=${location.id}#popular-spots" class="block w-full bg-white hover:bg-gray-50 text-primary border border-primary py-2 rounded-lg transition-all duration-300 flex items-center justify-center space-x-2">
+                                <i class="fa fa-map-o"></i>
+                                <span>返回地图查看</span>
+                            </a>
+                        </div>
+                    </div>
+                `;
+            });
+
+            // 一次性添加所有卡片到DOM
+            allSpotsContainer.innerHTML = cardsHTML;
+        }
+
+        // 页面加载完成后生成景点卡片
+        document.addEventListener('DOMContentLoaded', function() {
+            generateAllSpots();
+
+            // 移动端菜单切换
+            const menuToggle = document.getElementById('menu-toggle');
+            if (menuToggle) {
+                menuToggle.addEventListener('click', function () {
+                    const mobileMenu = document.getElementById('mobile-menu');
+                    if (mobileMenu) {
+                        mobileMenu.classList.toggle('hidden');
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>
