@@ -444,7 +444,7 @@
                 <a href="micro-course.html" class="text-dark hover:text-primary transition-colors duration-200 font-medium">微课</a>
                 <a href="#contact" class="text-dark hover:text-primary transition-colors duration-200 font-medium">联系我们</a>
             </nav>
-            <button class="md:hidden text-dark" id="menu-toggle" style="display: none;">
+            <button class="md:hidden text-dark" id="menu-toggle">
                 <i class="fa fa-bars text-xl"></i>
             </button>
         </div>
@@ -515,14 +515,14 @@
                             探索侨乡
                         </span>
                     </div>
-                    <div id="info-content" class="space-y-4 opacity-0 transition-opacity duration-300">
-                        <!-- 初始占位信息 -->
-                        <div class="text-center py-16">
-                            <i class="fa fa-map-signs text-4xl text-gray-300 mb-4"></i>
-                            <p class="text-gray-500">点击地图上的标记点查看详细信息</p>
-                        </div>
-                        <!-- 动态内容将通过JavaScript插入 -->
-                    </div>
+            <div id="info-content" class="space-y-4 opacity-100 transition-opacity duration-300">
+                <!-- 初始占位信息 -->
+                <div class="text-center py-16">
+                    <i class="fa fa-map-signs text-4xl text-gray-300 mb-4"></i>
+                    <p class="text-gray-500">点击地图上的标记点查看详细信息</p>
+                </div>
+                <!-- 动态内容将通过JavaScript插入 -->
+            </div>
                 </div>
             </div>
         </section>
@@ -844,6 +844,16 @@
                     helpModal.style.display = 'block';
                     localStorage.setItem('helpShown', 'true');
                 }, 1000);
+            }
+
+            // 移动端菜单切换功能
+            const menuToggle = document.getElementById('menu-toggle');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            if (menuToggle && mobileMenu) {
+                menuToggle.addEventListener('click', function() {
+                    mobileMenu.classList.toggle('hidden');
+                });
             }
             
             // 打开帮助模态框

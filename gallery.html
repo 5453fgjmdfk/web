@@ -25,90 +25,6 @@
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
     <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
     
-    <!-- 图片懒加载和优化脚本 -->
-    <script>
-        // 图片懒加载和错误处理
-        document.addEventListener('DOMContentLoaded', function() {
-            // 配置懒加载
-            const lazyImages = [].slice.call(document.querySelectorAll('img'));
-            let lazyImageObserver;
-            
-            if ('IntersectionObserver' in window) {
-                lazyImageObserver = new IntersectionObserver(function(entries, observer) {
-                    entries.forEach(function(entry) {
-                        if (entry.isIntersecting) {
-                            const lazyImage = entry.target;
-                            
-                            // 添加加载动画
-                            lazyImage.classList.add('image-loading');
-                            
-                            // 设置加载超时处理
-                            const loadTimeout = setTimeout(() => {
-                                if (!lazyImage.complete) {
-                                    lazyImage.classList.add('image-error');
-                                    lazyImage.classList.remove('image-loading');
-                                }
-                            }, 10000); // 10秒超时
-                            
-                            // 图片加载完成处理
-                            lazyImage.addEventListener('load', function() {
-                                clearTimeout(loadTimeout);
-                                lazyImage.classList.remove('image-loading');
-                                lazyImage.classList.add('image-loaded');
-                            });
-                            
-                            // 图片加载错误处理
-                            lazyImage.addEventListener('error', function() {
-                                clearTimeout(loadTimeout);
-                                lazyImage.classList.remove('image-loading');
-                                lazyImage.classList.add('image-error');
-                                // 设置备用图片或显示占位符
-                                lazyImage.alt = '图片加载失败: ' + lazyImage.alt;
-                            });
-                            
-                            // 移除观察
-                            lazyImageObserver.unobserve(lazyImage);
-                        }
-                    });
-                });
-                
-                lazyImages.forEach(function(lazyImage) {
-                    lazyImageObserver.observe(lazyImage);
-                });
-            }
-            
-            // 预加载关键图片
-            function preloadCriticalImages() {
-                const criticalImages = [
-                    'img/梁启超.png',
-                    'img/冯如.png',
-                    'img/司徒美堂.png',
-                    'img/李金发.png'
-                ];
-                
-                criticalImages.forEach(src => {
-                    const img = new Image();
-                    img.src = src;
-                });
-            }
-            
-            // 延迟加载非关键图片
-            function loadNonCriticalImages() {
-                setTimeout(() => {
-                    const nonCriticalImages = document.querySelectorAll('img:not([data-critical])');
-                    nonCriticalImages.forEach(img => {
-                        if (img.getAttribute('src') && !img.complete) {
-                            img.src = img.getAttribute('src');
-                        }
-                    });
-                }, 2000); // 2秒后加载非关键图片
-            }
-            
-            preloadCriticalImages();
-            loadNonCriticalImages();
-        });
-    </script>
-    
     <!-- 配置Tailwind CSS自定义颜色和字体 -->
     <script>
         tailwind.config = {
@@ -180,23 +96,41 @@
             background: #94a3b8;
         }
         
-        /* 画廊样式 */
-        .gallery-container {
-            scroll-snap-type: x mandatory;
-            scroll-behavior: smooth;
-            -webkit-overflow-scrolling: touch;
+        /* 单张图片容器样式 */
+        .single-image-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
         }
         
-        .gallery-item {
-            scroll-snap-align: start;
-            flex: 0 0 auto;
+        /* 图片蒙版渐变效果 */
+        .single-image-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                to bottom,
+                rgba(0, 0, 0, 0.1) 0%,
+                rgba(0, 0, 0, 0.2) 50%,
+                rgba(0, 0, 0, 0.3) 100%
+            );
+            z-index: 2;
+            pointer-events: none;
         }
         
-        .gallery-image {
+        /* 图片样式 */
+        .single-image {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
             transition: transform 0.3s ease;
         }
         
-        .gallery-image:hover {
+        .single-image:hover {
             transform: scale(1.02);
         }
         
@@ -213,48 +147,120 @@
             border: 2px solid #165DFF;
             transform: scale(1.1);
         }
+        
+        /* 轮播指示器样式 */
+        .carousel-indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #cbd5e1;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .carousel-indicator.active {
+            background: #165DFF;
+            transform: scale(1.2);
+        }
+        
+        .carousel-indicator:hover {
+            background: #94a3b8;
+        }
+
+        /* 移动端优化 */
+        @media (max-width: 768px) {
+            /* 页眉优化 */
+            header .container {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+            
+            header h1 {
+                font-size: 1.1rem;
+            }
+            
+            /* 页脚优化 */
+            footer .container {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+            
+            footer .grid {
+                gap: 2rem;
+            }
+            
+            /* 移动端菜单优化 */
+            #mobile-menu {
+                padding: 1rem;
+            }
+            
+            #mobile-menu a {
+                padding: 0.75rem 0;
+                font-size: 1rem;
+            }
+        }
+
+        /* 超小屏幕优化 */
+        @media (max-width: 480px) {
+            header .container {
+                padding: 0.75rem 1rem;
+            }
+            
+            header h1 {
+                font-size: 1rem;
+            }
+            
+            /* 导航图标大小调整 */
+            header i.fa-map-marker {
+                font-size: 1.25rem;
+            }
+            
+            /* 页脚文字大小调整 */
+            footer {
+                padding: 2rem 0;
+            }
+            
+            footer h3, footer h4 {
+                font-size: 1.1rem;
+            }
+            
+            footer p, footer li {
+                font-size: 0.9rem;
+            }
+        }
     </style>
 </head>
 
-<body class="bg-light font-sans text-dark antialiased"
+<body class="bg-light font-sans text-dark antialiased m-0 p-0"
     style="background-image: url('src/Background.jpg'); background-size: cover; background-position: center; background-attachment: fixed;">
     <!-- 添加半透明遮罩层 -->
     <div class="absolute inset-0 bg-black/20 z-[-1]"></div>
-    <header class="bg-white shadow-sm sticky top-0 z-[1000] transition-all duration-300">
-        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+    <header class="bg-white shadow-sm sticky top-0 z-[1000] transition-all duration-300 w-full left-0 right-0">
+        <div class="w-full mx-auto px-4 py-4 flex justify-between items-center">
             <div class="flex items-center space-x-2">
                 <i class="fa fa-map-marker text-primary text-2xl"></i>
                 <h1 class="text-xl font-bold text-primary">江门市数字地图</h1>
             </div>
-            <nav class="hidden md:flex items-center space-x-8">
+            <nav class="hidden md:flex items-center space-x-8 ml-auto">
                 <a href="index.html" class="text-dark hover:text-primary transition-colors duration-200 font-medium">首页</a>
-                <a href="all-spots.html" class="text-dark hover:text-primary transition-colors duration-200 font-medium">所有景点</a>
-                <a href="1.html" class="text-dark hover:text-primary transition-colors duration-200 font-medium">历史文化</a>
                 <a href="famous-people.html" class="text-dark hover:text-primary transition-colors duration-200 font-medium">名人风采</a>
                 <a href="gallery.html" class="text-primary font-medium">图片画廊</a>
                 <a href="micro-course.html" class="text-dark hover:text-primary transition-colors duration-200 font-medium">微课</a>
-                <a href="#contact" class="text-dark hover:text-primary transition-colors duration-200 font-medium">联系我们</a>
             </nav>
             <button class="md:hidden text-dark" id="menu-toggle">
                 <i class="fa fa-bars text-xl"></i>
             </button>
         </div>
         <!-- 移动端菜单 -->
-        <div class="md:hidden hidden bg-white border-t" id="mobile-menu">
-            <div class="container mx-auto px-4 py-2 flex flex-col space-y-3">
+        <div class="md:hidden hidden bg-white border-t w-full" id="mobile-menu">
+            <div class="w-full px-4 py-2 flex flex-col space-y-3">
                 <a href="index.html" class="py-2 text-dark hover:text-primary transition-colors duration-200 font-medium">首页</a>
-                <a href="all-spots.html"
-                    class="py-2 text-dark hover:text-primary transition-colors duration-200 font-medium">所有景点</a>
-                <a href="1.html"
-                    class="py-2 text-dark hover:text-primary transition-colors duration-200 font-medium">历史文化</a>
                 <a href="famous-people.html"
                     class="py-2 text-dark hover:text-primary transition-colors duration-200 font-medium">名人风采</a>
                 <a href="gallery.html"
                     class="py-2 text-primary font-medium">图片画廊</a>
                 <a href="micro-course.html"
                     class="py-2 text-dark hover:text-primary transition-colors duration-200 font-medium">微课</a>
-                <a href="#contact"
-                    class="py-2 text-dark hover:text-primary transition-colors duration-200 font-medium">联系我们</a>
             </div>
         </div>
     </header>
@@ -268,14 +274,18 @@
                 </a>
                 <h2 class="text-3xl font-bold text-dark">图片画廊</h2>
             </div>
-            <p class="text-gray-600 text-lg">浏览江门市所有名人图片，使用鼠标滚轮或拖动来查看所有图片。</p>
+            <p class="text-gray-600 text-lg">浏览江门市所有名人图片，图片将自动轮播展示。</p>
         </section>
 
-        <!-- 主画廊区域 -->
+        <!-- 单张图片展示区域 -->
         <section class="mb-12">
             <div class="bg-white rounded-xl shadow-lg overflow-hidden p-6">
-                <div class="gallery-container flex overflow-x-auto snap-x snap-mandatory space-x-4 pb-4" id="main-gallery">
-                    <!-- 图片将通过JavaScript动态生成 -->
+                <div class="relative single-image-container" id="single-image-container">
+                    <!-- 单张图片将通过JavaScript动态生成 -->
+                    <div class="text-center py-16" id="image-placeholder">
+                        <i class="fa fa-picture-o text-4xl text-gray-300 mb-4"></i>
+                        <p class="text-gray-500">图片加载中...</p>
+                    </div>
                 </div>
                 
                 <!-- 画廊控制按钮 -->
@@ -283,25 +293,33 @@
                     <button id="prev-btn" class="bg-primary hover:bg-primary/90 text-white w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300">
                         <i class="fa fa-chevron-left"></i>
                     </button>
+                    <button id="pause-btn" class="bg-gray-600 hover:bg-gray-700 text-white w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300">
+                        <i class="fa fa-pause" id="play-pause-icon"></i>
+                    </button>
                     <button id="next-btn" class="bg-primary hover:bg-primary/90 text-white w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300">
                         <i class="fa fa-chevron-right"></i>
                     </button>
                 </div>
+                
+                <!-- 轮播指示器 -->
+                <div class="flex justify-center mt-4 space-x-2" id="carousel-indicators">
+                    <!-- 指示器将通过JavaScript动态生成 -->
+                </div>
             </div>
         </section>
 
-        <!-- 缩略图导航 -->
+        <!-- 图片信息 -->
+        <section class="bg-white rounded-xl shadow-lg overflow-hidden p-6 mb-8">
+            <h3 class="text-xl font-bold text-dark mb-4" id="current-image-title">选择图片查看详情</h3>
+            <p class="text-gray-600" id="current-image-description">图片轮播将自动开始</p>
+        </section>
+
+        <!-- 所有图片缩略图 -->
         <section class="mb-12">
             <h3 class="text-xl font-bold text-dark mb-4">所有图片</h3>
             <div class="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-3" id="thumbnails">
                 <!-- 缩略图将通过JavaScript动态生成 -->
             </div>
-        </section>
-
-        <!-- 图片信息 -->
-        <section class="bg-white rounded-xl shadow-lg overflow-hidden p-6">
-            <h3 class="text-xl font-bold text-dark mb-4" id="current-image-title">选择图片查看详情</h3>
-            <p class="text-gray-600" id="current-image-description">点击上方的图片或缩略图查看详细信息</p>
         </section>
     </main>
 
@@ -330,15 +348,11 @@
                     <ul class="space-y-2">
                         <li><a href="index.html" class="text-gray-400 hover:text-white transition-colors duration-200">首页</a>
                         </li>
-                        <li><a href="all-spots.html" class="text-gray-400 hover:text-white transition-colors duration-200">所有景点</a>
-                        </li>
-                        <li><a href="1.html" class="text-gray-400 hover:text-white transition-colors duration-200">历史文化</a>
-                        </li>
                         <li><a href="famous-people.html" class="text-gray-400 hover:text-white transition-colors duration-200">名人风采</a>
                         </li>
                         <li><a href="gallery.html" class="text-gray-400 hover:text-white transition-colors duration-200">图片画廊</a>
                         </li>
-                        <li><a href="#contact" class="text-gray-400 hover:text-white transition-colors duration-200">联系我们</a>
+                        <li><a href="micro-course.html" class="text-gray-400 hover:text-white transition-colors duration-200">微课</a>
                         </li>
                     </ul>
                 </div>
@@ -347,11 +361,11 @@
                     <ul class="space-y-3">
                         <li class="flex items-start space-x-3">
                             <i class="fa fa-map-marker text-primary mt-1"></i>
-                            <span class="text-gray-400">广东省江门市蓬江区白沙大道西1号</span>
+                            <span class="text-gray-400">广东省江门市五邑大学</span>
                         </li>
                         <li class="flex items-center space-x-3">
                             <i class="fa fa-phone text-primary"></i>
-                            <span class="text-gray-400">0750-1234567</span>
+                            <span class="text-gray-400">13536219649</span>
                         </li>
                         <li class="flex items-center space-x-3">
                             <i class="fa fa-envelope text-primary"></i>
@@ -473,28 +487,29 @@
 
         // 当前选中的图片索引
         let currentIndex = 0;
+        let autoRotateInterval = null;
+        let isAutoRotating = true;
 
         // 初始化画廊
         function initGallery() {
-            const mainGallery = document.getElementById('main-gallery');
+            const singleImageContainer = document.getElementById('single-image-container');
             const thumbnails = document.getElementById('thumbnails');
+            const indicators = document.getElementById('carousel-indicators');
             
-            if (!mainGallery || !thumbnails) return;
+            if (!singleImageContainer || !thumbnails || !indicators) return;
 
             // 清空容器
-            mainGallery.innerHTML = '';
+            singleImageContainer.innerHTML = '';
             thumbnails.innerHTML = '';
+            indicators.innerHTML = '';
 
-            // 生成主画廊图片
-            images.forEach((image, index) => {
-                const galleryItem = document.createElement('div');
-                galleryItem.className = 'gallery-item w-full md:w-3/4 lg:w-1/2 xl:w-2/5 flex-shrink-0';
-                galleryItem.innerHTML = `
-                    <div class="bg-gray-100 rounded-lg overflow-hidden shadow-md">
-                        <img src="img/${image.filename}" alt="${image.name}" class="gallery-image w-full h-64 md:h-80 object-cover cursor-pointer" data-index="${index}">
-                    </div>
-                `;
-                mainGallery.appendChild(galleryItem);
+            // 生成轮播指示器
+            images.forEach((_, index) => {
+                const indicator = document.createElement('button');
+                indicator.className = 'w-3 h-3 rounded-full bg-gray-300 hover:bg-gray-400 transition-colors duration-200';
+                indicator.setAttribute('data-index', index);
+                indicator.addEventListener('click', () => showImage(index));
+                indicators.appendChild(indicator);
             });
 
             // 生成缩略图
@@ -507,8 +522,8 @@
                 thumbnails.appendChild(thumbnail);
             });
 
-            // 添加点击事件到图片和缩略图
-            document.querySelectorAll('.gallery-image, .thumbnail img').forEach(item => {
+            // 添加点击事件到缩略图
+            document.querySelectorAll('.thumbnail img').forEach(item => {
                 item.addEventListener('click', function() {
                     const index = parseInt(this.getAttribute('data-index'));
                     showImage(index);
@@ -517,20 +532,21 @@
 
             // 初始化第一个图片
             showImage(0);
+
+            // 开始自动轮播
+            startAutoRotate();
         }
 
         // 显示指定索引的图片
         function showImage(index) {
             currentIndex = index;
+            const currentImage = images[index];
             
-            // 更新主画廊滚动位置
-            const mainGallery = document.getElementById('main-gallery');
-            if (mainGallery) {
-                const galleryItems = mainGallery.querySelectorAll('.gallery-item');
-                if (galleryItems[index]) {
-                    galleryItems[index].scrollIntoView({ behavior: 'smooth', inline: 'center' });
-                }
-            }
+            // 更新单张图片显示
+            const singleImageContainer = document.getElementById('single-image-container');
+            singleImageContainer.innerHTML = `
+                <img src="img/${currentImage.filename}" alt="${currentImage.name}" class="single-image">
+            `;
 
             // 更新缩略图选中状态
             document.querySelectorAll('.thumbnail').forEach((thumb, i) => {
@@ -541,10 +557,23 @@
                 }
             });
 
+            // 更新指示器选中状态
+            document.querySelectorAll('#carousel-indicators button').forEach((indicator, i) => {
+                if (i === index) {
+                    indicator.classList.add('bg-primary');
+                    indicator.classList.remove('bg-gray-300');
+                } else {
+                    indicator.classList.remove('bg-primary');
+                    indicator.classList.add('bg-gray-300');
+                }
+            });
+
             // 更新图片信息
-            const currentImage = images[index];
             document.getElementById('current-image-title').textContent = currentImage.name;
             document.getElementById('current-image-description').textContent = currentImage.description;
+
+            // 重置自动轮播计时器
+            resetAutoRotate();
         }
 
         // 下一张图片
@@ -559,24 +588,40 @@
             showImage(currentIndex);
         }
 
-        // 添加键盘导航
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'ArrowRight') {
-                nextImage();
-            } else if (e.key === 'ArrowLeft') {
-                prevImage();
-            }
-        });
+        // 开始自动轮播
+        function startAutoRotate() {
+            if (autoRotateInterval) clearInterval(autoRotateInterval);
+            autoRotateInterval = setInterval(() => {
+                if (isAutoRotating) {
+                    nextImage();
+                }
+            }, 5000); // 5秒轮播一次
+        }
 
-        // 添加鼠标滚轮支持
-        document.getElementById('main-gallery').addEventListener('wheel', function(e) {
-            e.preventDefault();
-            if (e.deltaY > 0) {
-                nextImage();
+        // 重置自动轮播计时器
+        function resetAutoRotate() {
+            if (autoRotateInterval) clearInterval(autoRotateInterval);
+            startAutoRotate();
+        }
+
+        // 切换自动轮播状态
+        function toggleAutoRotate() {
+            isAutoRotating = !isAutoRotating;
+            const icon = document.getElementById('play-pause-icon');
+            const button = document.getElementById('pause-btn');
+            
+            if (isAutoRotating) {
+                icon.className = 'fa fa-pause';
+                button.classList.remove('bg-gray-600');
+                button.classList.add('bg-gray-700');
+                startAutoRotate();
             } else {
-                prevImage();
+                icon.className = 'fa fa-play';
+                button.classList.remove('bg-gray-700');
+                button.classList.add('bg-gray-600');
+                if (autoRotateInterval) clearInterval(autoRotateInterval);
             }
-        });
+        }
 
         // 页面加载完成后初始化画廊
         document.addEventListener('DOMContentLoaded', function() {
@@ -585,6 +630,7 @@
             // 添加控制按钮事件
             document.getElementById('prev-btn').addEventListener('click', prevImage);
             document.getElementById('next-btn').addEventListener('click', nextImage);
+            document.getElementById('pause-btn').addEventListener('click', toggleAutoRotate);
 
             // 移动端菜单切换
             const menuToggle = document.getElementById('menu-toggle');
@@ -596,6 +642,17 @@
                     }
                 });
             }
+
+            // 添加键盘导航
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'ArrowRight') {
+                    nextImage();
+                } else if (e.key === 'ArrowLeft') {
+                    prevImage();
+                } else if (e.key === ' ') {
+                    toggleAutoRotate();
+                }
+            });
         });
     </script>
 </body>
