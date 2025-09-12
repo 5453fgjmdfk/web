@@ -11,6 +11,94 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    
+    <!-- 预加载关键资源 -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    
+    <!-- 图片懒加载和优化脚本 -->
+    <script>
+        // 图片懒加载和错误处理
+        document.addEventListener('DOMContentLoaded', function() {
+            // 配置懒加载
+            const lazyImages = [].slice.call(document.querySelectorAll('img'));
+            let lazyImageObserver;
+            
+            if ('IntersectionObserver' in window) {
+                lazyImageObserver = new IntersectionObserver(function(entries, observer) {
+                    entries.forEach(function(entry) {
+                        if (entry.isIntersecting) {
+                            const lazyImage = entry.target;
+                            
+                            // 添加加载动画
+                            lazyImage.classList.add('image-loading');
+                            
+                            // 设置加载超时处理
+                            const loadTimeout = setTimeout(() => {
+                                if (!lazyImage.complete) {
+                                    lazyImage.classList.add('image-error');
+                                    lazyImage.classList.remove('image-loading');
+                                }
+                            }, 10000); // 10秒超时
+                            
+                            // 图片加载完成处理
+                            lazyImage.addEventListener('load', function() {
+                                clearTimeout(loadTimeout);
+                                lazyImage.classList.remove('image-loading');
+                                lazyImage.classList.add('image-loaded');
+                            });
+                            
+                            // 图片加载错误处理
+                            lazyImage.addEventListener('error', function() {
+                                clearTimeout(loadTimeout);
+                                lazyImage.classList.remove('image-loading');
+                                lazyImage.classList.add('image-error');
+                                // 设置备用图片或显示占位符
+                                lazyImage.alt = '图片加载失败: ' + lazyImage.alt;
+                            });
+                            
+                            // 移除观察
+                            lazyImageObserver.unobserve(lazyImage);
+                        }
+                    });
+                });
+                
+                lazyImages.forEach(function(lazyImage) {
+                    lazyImageObserver.observe(lazyImage);
+                });
+            }
+            
+            // 预加载关键图片
+            function preloadCriticalImages() {
+                const criticalImages = [
+                    'img/梁启超.png',
+                    'img/冯如.png',
+                    'img/司徒美堂.png'
+                ];
+                
+                criticalImages.forEach(src => {
+                    const img = new Image();
+                    img.src = src;
+                });
+            }
+            
+            // 延迟加载非关键图片
+            function loadNonCriticalImages() {
+                setTimeout(() => {
+                    const nonCriticalImages = document.querySelectorAll('img:not([data-critical])');
+                    nonCriticalImages.forEach(img => {
+                        if (img.getAttribute('src') && !img.complete) {
+                            img.src = img.getAttribute('src');
+                        }
+                    });
+                }, 2000); // 2秒后加载非关键图片
+            }
+            
+            preloadCriticalImages();
+            loadNonCriticalImages();
+        });
+    </script>
+    
     <style>
         /* 自定义动画 */
         @keyframes fadeInUp {
