@@ -20,6 +20,70 @@
             transform: translateY(-5px);
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         }
+
+        /* 移动端优化 - 确保页眉页脚贴合屏幕边缘 */
+        @media (max-width: 768px) {
+            /* 移除容器内边距，让页眉页脚贴合边缘 */
+            header .container,
+            footer .container {
+                padding-left: 0;
+                padding-right: 0;
+                max-width: 100%;
+            }
+            
+            /* 确保页眉内容有适当内边距 */
+            header .container > div {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+            
+            /* 页脚内容居中显示 */
+            footer .container {
+                text-align: center;
+            }
+            
+            /* 微课卡片在移动端的优化 */
+            .course-card {
+                margin: 0 0.5rem;
+            }
+            
+            /* 主内容区域优化 */
+            main.container {
+                padding-left: 0.5rem;
+                padding-right: 0.5rem;
+            }
+        }
+
+        /* 超小屏幕优化 */
+        @media (max-width: 480px) {
+            /* 页眉标题字体调整 */
+            header h1 {
+                font-size: 1.1rem;
+            }
+            
+            /* 导航链接间距调整 */
+            nav.flex.items-center.space-x-6 {
+                gap: 0.75rem;
+            }
+            
+            /* 页脚文字大小调整 */
+            footer p {
+                font-size: 0.9rem;
+            }
+        }
+
+        /* 确保所有页面容器宽度100% */
+        .container {
+            width: 100%;
+            max-width: 100%;
+        }
+
+        /* 页眉和页脚全宽显示 */
+        header, footer {
+            width: 100%;
+            left: 0;
+            right: 0;
+        }
     </style>
 </head>
 
@@ -103,7 +167,7 @@
             </div>
             <h3 class="text-xl font-semibold text-yellow-800 mb-2">微课系统开发中</h3>
             <p class="text-yellow-700 mb-4">我们正在积极开发侨乡文化微课程系统，即将为您带来丰富的学习内容。</p>
-            <p class="text-sm text-yellow-600">预计上线时间：2023年12月</p>
+            <p class="text-sm text-yellow-600">预计上线时间：2025年10月</p>
         </section>
     </main>
 
