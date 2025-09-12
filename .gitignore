@@ -1,0 +1,11 @@
+node_modules/
+.idea/
+.DS_Store
+*.log
+build/
+*.pyc
+__pycache__/
+*.docx
+*.zip
+temp.txt
+extracted_text.txt

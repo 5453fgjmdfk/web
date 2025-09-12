@@ -1,0 +1,174 @@
+/* 这里可以添加额外的自定义样式 */
+
+/* 响应式地图高度 */
+@media (max-width: 768px) {
+    #map {
+        height: 400px !important;
+    }
+}
+
+/* 移动端优化样式 */
+@media (max-width: 768px) {
+    /* 头部导航优化 */
+    header .container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+    
+    /* 移动端菜单优化 */
+    #mobile-menu {
+        max-height: 80vh;
+        overflow-y: auto;
+    }
+    
+    /* 网站介绍区域优化 */
+    .text-\[clamp\(1\.8rem\2c 4vw\2c 2\.5rem\)\] {
+        font-size: 1.5rem !important;
+    }
+    
+    /* 按钮组优化 */
+    .flex-wrap.justify-center.gap-3 {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .flex-wrap.justify-center.gap-3 button {
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+    
+    /* 地图和信息面板布局优化 */
+    .flex-col.lg\:flex-row {
+        flex-direction: column;
+    }
+    
+    .w-full.lg\:w-3\/4,
+    .w-full.lg\:w-1\/4 {
+        width: 100% !important;
+        margin-bottom: 1rem;
+    }
+    
+    /* 地图控制器优化 */
+    .absolute.top-4.right-4 {
+        top: 1rem;
+        right: 1rem;
+    }
+    
+    .absolute.top-4.right-4 button {
+        width: 2.5rem;
+        height: 2.5rem;
+    }
+    
+    /* 信息面板优化 */
+    #location-info {
+        max-height: 50vh;
+        overflow-y: auto;
+    }
+    
+    #info-content {
+        padding: 1rem;
+    }
+    
+    /* 热门景点卡片优化 */
+    .grid.grid-cols-1.md\:grid-cols-2.lg\:grid-cols-3 {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    /* 页脚优化 */
+    footer .grid.grid-cols-1.md\:grid-cols-3 {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    footer .flex.space-x-4 {
+        justify-content: center;
+    }
+    
+    /* 弹窗优化 */
+    .modal-content {
+        width: 95% !important;
+        margin: 1rem;
+    }
+    
+    /* 按钮文字大小优化 */
+    button span {
+        font-size: 0.875rem;
+    }
+}
+
+/* 触摸设备优化 */
+@media (hover: none) and (pointer: coarse) {
+    .custom-marker:hover {
+        transform: scale(1) !important;
+    }
+    
+    button:hover {
+        transform: none !important;
+    }
+}
+
+/* 加载动画 */
+.loading-spinner {
+    border: 3px solid rgba(22, 93, 255, 0.1);
+    border-radius: 50%;
+    border-top: 3px solid #165DFF;
+    width: 30px;
+    height: 30px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* 平滑滚动 */
+html {
+    scroll-behavior: smooth;
+}
+
+/* 增强用户体验的样式 */
+button, a {
+    outline: none !important;
+}
+
+button:focus,
+input:focus,
+textarea:focus {
+    box-shadow: 0 0 0 2px rgba(22, 93, 255, 0.2) !important;
+}
+
+/* 移动端触摸反馈优化 */
+@media (max-width: 768px) {
+    button:active {
+        transform: scale(0.98);
+        transition: transform 0.1s ease;
+    }
+    
+    .annotation-icon:active {
+        transform: translate(-50%, -50%) scale(1.1) !important;
+    }
+}
+
+/* 防止移动端缩放问题 */
+@media (max-width: 768px) {
+    input, select, textarea {
+        font-size: 16px !important; /* 防止iOS缩放 */
+    }
+}
+
+/* 移动端安全区域支持 */
+@supports(padding: max(0px)) {
+    @media (max-width: 768px) {
+        body {
+            padding-left: max(1rem, env(safe-area-inset-left));
+            padding-right: max(1rem, env(safe-area-inset-right));
+        }
+        
+        header {
+            padding-left: max(1rem, env(safe-area-inset-left));
+            padding-right: max(1rem, env(safe-area-inset-right));
+        }
+    }
+}

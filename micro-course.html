@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>侨乡文化微课 - 江门市数字地图</title>
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='%23165DFF'/><path d='M16 8L20 14L26 16L20 18L16 24L12 18L6 16L12 14L16 8Z' fill='white'/><circle cx='16' cy='16' r='4' fill='%23FF7D00'/></svg>" type="image/svg+xml">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <style>
+        .course-card {
+            transition: all 0.3s ease;
+        }
+        
+        .course-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 min-h-screen">
+    <!-- 导航栏 -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fa fa-graduation-cap text-blue-600 text-2xl"></i>
+                <h1 class="text-xl font-bold text-blue-600">侨乡文化微课</h1>
+            </div>
+            <nav class="flex items-center space-x-6">
+                <a href="index.html" class="text-gray-600 hover:text-blue-600 transition-colors duration-200 font-medium">返回地图</a>
+                <a href="famous-people.html" class="text-gray-600 hover:text-blue-600 transition-colors duration-200 font-medium">名人风采</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8">
+        <!-- 页面标题 -->
+        <section class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">侨乡文化数字微课</h2>
+            <p class="text-gray-600 max-w-2xl mx-auto">探索江门侨乡文化的精彩微课程，深入了解侨乡历史、文化和精神传承。</p>
+        </section>
+
+        <!-- 微课内容区域 -->
+        <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+            <!-- 微课卡片1 -->
+            <div class="course-card bg-white rounded-xl shadow-md overflow-hidden">
+                <div class="h-48 bg-gradient-to-r from-blue-500 to-blue-600 flex items-center justify-center">
+                    <i class="fa fa-history text-white text-6xl"></i>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">侨乡历史溯源</h3>
+                    <p class="text-gray-600 mb-4">探索江门侨乡的形成与发展历程</p>
+                    <p class="text-sm text-gray-500 mb-4">了解江门如何成为著名侨乡，以及侨乡文化的历史渊源和重要发展阶段。</p>
+                    <div class="flex items-center justify-between">
+                        <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">历史课程</span>
+                        <span class="text-sm text-gray-500">即将上线</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 微课卡片2 -->
+            <div class="course-card bg-white rounded-xl shadow-md overflow-hidden">
+                <div class="h-48 bg-gradient-to-r from-green-500 to-green-600 flex items-center justify-center">
+                    <i class="fa fa-envelope-open text-white text-6xl"></i>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">侨批文化解读</h3>
+                    <p class="text-gray-600 mb-4">解密侨批中的家国情怀</p>
+                    <p class="text-sm text-gray-500 mb-4">深入解读侨批这一独特文化载体，感受海外侨胞对家乡的深情厚谊。</p>
+                    <div class="flex items-center justify-between">
+                        <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">文化课程</span>
+                        <span class="text-sm text-gray-500">即将上线</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 微课卡片3 -->
+            <div class="course-card bg-white rounded-xl shadow-md overflow-hidden">
+                <div class="h-48 bg-gradient-to-r from-purple-500 to-purple-600 flex items-center justify-center">
+                    <i class="fa fa-building text-white text-6xl"></i>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">碉楼建筑艺术</h3>
+                    <p class="text-gray-600 mb-4">探索侨乡碉楼的建筑特色</p>
+                    <p class="text-sm text-gray-500 mb-4">了解碉楼建筑的风格特点、文化内涵及其在侨乡文化中的重要地位。</p>
+                    <div class="flex items-center justify-between">
+                        <span class="bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded-full">建筑课程</span>
+                        <span class="text-sm text-gray-500">即将上线</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 开发中提示 -->
+        <section class="bg-yellow-50 border border-yellow-200 rounded-xl p-6 text-center">
+            <div class="flex justify-center mb-4">
+                <i class="fa fa-cogs text-yellow-600 text-4xl"></i>
+            </div>
+            <h3 class="text-xl font-semibold text-yellow-800 mb-2">微课系统开发中</h3>
+            <p class="text-yellow-700 mb-4">我们正在积极开发侨乡文化微课程系统，即将为您带来丰富的学习内容。</p>
+            <p class="text-sm text-yellow-600">预计上线时间：2023年12月</p>
+        </section>
+    </main>
+
+    <footer class="bg-gray-800 text-white py-8 mt-12">
+        <div class="container mx-auto px-4 text-center">
+            <p>&copy; 2023 江门市数字地图. 保留所有权利.</p>
+        </div>
+    </footer>
+</body>
+
+</html>

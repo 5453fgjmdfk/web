@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>江门名人风采 - 侨乡精神传承</title>
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='%23165DFF'/><path d='M16 8L20 14L26 16L20 18L16 24L12 18L6 16L12 14L16 8Z' fill='white'/><circle cx='16' cy='16' r='4' fill='%23FF7D00'/></svg>" type="image/svg+xml">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <style>
+        /* 自定义动画 */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-in-up {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        /* 卡片悬停效果 */
+        .person-card {
+            transition: all 0.3s ease;
+        }
+
+        .person-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        /* 模态框样式 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .modal-content {
+            background: white;
+            margin: 2rem auto;
+            padding: 2rem;
+            border-radius: 12px;
+            max-width: 800px;
+            width: 90%;
+            position: relative;
+            animation: modalFadeIn 0.3s ease-out;
+        }
+
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .modal-content {
+                margin: 1rem auto;
+                padding: 1.5rem;
+                width: 95%;
+            }
+            
+            .person-card {
+                margin-bottom: 1rem;
+            }
+        }
+
+        /* 图片垂直滚动样式 */
+        .image-scroll-container {
+            height: 300px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            scrollbar-width: thin;
+            scrollbar-color: #cbd5e1 #f1f1f1;
+            -webkit-overflow-scrolling: touch;
+            border-radius: 8px;
+        }
+
+        .image-scroll-container::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .image-scroll-container::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 3px;
+        }
+
+        .image-scroll-container::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+
+        .image-scroll-container::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        .scrollable-image {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.2s ease;
+        }
+
+        .scrollable-image:hover {
+            transform: scale(1.02);
+        }
+
+        /* 移动端适配 */
+        @media (max-width: 768px) {
+            .image-scroll-container {
+                height: 250px;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 min-h-screen">
+    <!-- 导航栏 -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fa fa-users text-blue-600 text-2xl"></i>
+                <h1 class="text-xl font-bold text-blue-600">江门名人风采</h1>
+            </div>
+            <nav class="flex items-center space-x-6">
+                <a href="index.html" class="text-gray-600 hover:text-blue-600 transition-colors duration-200 font-medium">返回地图</a>
+                <a href="1.html" class="text-gray-600 hover:text-blue-600 transition-colors duration-200 font-medium">文化地图</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8">
+        <!-- 页面标题 -->
+        <section class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">侨乡精神传承者</h2>
+            <p class="text-gray-600 max-w-2xl mx-auto">探索江门侨乡杰出人物的光辉事迹，感受他们以不同方式传承和发扬的侨乡精神。</p>
+        </section>
+
+        <!-- 索引系统 -->
+        <section class="mb-8">
+            <div class="bg-white rounded-xl shadow-md p-6">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">快速索引</h3>
+                
+                <!-- 字母索引 -->
+                <div class="mb-6">
+                    <h4 class="text-sm font-medium text-gray-600 mb-3">按姓氏首字母</h4>
+                    <div class="flex flex-wrap gap-2">
+                        <button class="index-letter bg-blue-100 text-blue-800 px-3 py-1 rounded-md text-sm hover:bg-blue-200 transition-colors" data-letter="L">L</button>
+                        <button class="index-letter bg-blue-100 text-blue-800 px-3 py-1 rounded-md text-sm hover:bg-blue-200 transition-colors" data-letter="F">F</button>
+                        <button class="index-letter bg-blue-100 text-blue-800 px-3 py-1 rounded-md text-sm hover:bg-blue-200 transition-colors" data-letter="H">H</button>
+                        <button class="index-letter bg-blue-100 text-blue-800 px-3 py-1 rounded-md text-sm hover:bg-blue-200 transition-colors" data-letter="S">S</button>
+                        <button class="index-letter bg-blue-100 text-blue-800 px-3 py-1 rounded-md text-sm hover:bg-blue-200 transition-colors" data-letter="C">C</button>
+                        <button class="index-letter bg-blue-100 text-blue-800 px-3 py-1 rounded-md text-sm hover:bg-blue-200 transition-colors" data-letter="D">D</button>
+<button class="index-letter bg-blue-100 text-blue-800 px-3 py-1 rounded-md text-sm hover:bg-blue-200 transition-colors" data-letter="X">X</button>
+                        <button class="index-letter bg-blue-100 text-blue-800 px-3 py-1 rounded-md text-sm hover:bg-blue-200 transition-colors" data-letter="W">W</button>
+<button class="index-letter bg-blue-100 text-blue-800 px-3 py-1 rounded-md text-sm hover:bg-blue-200 transition-colors" data-letter="L">L</button>
+                    </div>
+                </div>
+
+                <!-- 分类索引 -->
+                <div>
+<h4 class="text-sm font-medium text-gray-600 mb-3">按贡献领域</h4>
+                    <div class="flex flex-wrap gap-2">
+                        <button class="index-category bg-green-100 text-green-800 px-3 py-1 rounded-md text-sm hover:bg-green-200 transition-colors" data-category="教育文化">教育文化</button>
+                        <button class="index-category bg-red-100 text-red-800 px-3 py-1 rounded-md text-sm hover:bg-red-200 transition-colors" data-category="航空科技">航空科技</button>
+                        <button class="index-category bg-purple-100 text-purple-800 px-3 py-1 rounded-md text-sm hover:bg-purple-200 transition-colors" data-category="革命事业">革命事业</button>
+<button class="index-category bg-yellow-100 text-yellow-800 px-3 py-1 rounded-md text-sm hover:bg-yellow-200 transition-colors" data-category="工程建设">工程建设</button>
+                        <button class="index-category bg-pink-100 text-pink-800 px-3 py-1 rounded-md text-sm hover:bg-pink-200 transition-colors" data-category="建筑文化">建筑文化</button>
+                        <button class="index-category bg-teal-100 text-teal-800 px-3 py-1 rounded-md text-sm hover:bg-teal-200 transition-colors" data-category="文学艺术">文学艺术</button>
+                        <button class="index-category bg-orange-100 text-orange-800 px-3 py-1 rounded-md text-sm hover:bg-orange-200 transition-colors" data-category="新闻传媒">新闻传媒</button>
+                        <button class="index-category bg-amber-100 text-amber-800 px-3 py-1 rounded-md text-sm hover:bg-amber-200 transition-colors" data-category="商业公益">商业公益</button>
+<button class="index-category bg-rose-100 text-rose-800 px-3 py-1 rounded-md text-sm hover:bg-rose-200 transition-colors" data-category="医学卫生">医学卫生</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 搜索和筛选 -->
+        <section class="mb-8">
+            <div class="flex flex-col md:flex-row gap-4 items-center justify-center">
+                <div class="relative w-full md:w-64">
+                    <input type="text" placeholder="搜索名人..." class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" id="search-input">
+<i class="fa fa-search absolute right-3 top-3 text-gray-400"></i>
+                </div>
+                <select class="w-full md:w-48 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" id="category-filter">
+                    <option value="">所有领域</option>
+                    <option value="教育文化">教育文化</option>
+                    <option value="革命事业">革命事业</option>
+                    <option value="航空科技">航空科技</option>
+                    <option value="文化保护">文化保护</option>
+                    <option value="工程建设">工程建设</option>
+<option value="建筑文化">建筑文化</option>
+                    <option value="文学艺术">文学艺术</option>
+                    <option value="新闻传媒">新闻传媒</option>
+                    <option value="商业公益">商业公益</option>
+                    <option value="医学卫生">医学卫生</option>
+                </select>
+            </div>
+        </section>
+
+
+        <!-- 名人卡片网格 -->
+        <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+            <!-- 梁启超 -->
+            <div class="person-card bg-white rounded-xl shadow-md overflow-hidden cursor-pointer animate-fade-in-up" data-person="liangqichao">
+                <div class="image-scroll-container">
+                    <img src="img/梁启超.png" alt="梁启超" class="scrollable-image">
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">梁启超</h3>
+                    <p class="text-gray-600 mb-4">1873-1929 · 维新变法领袖与思想家</p>
+                    <div class="flex items-center mt-4">
+                        <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">教育文化</span>
+                        <span class="ml-2 text-sm text-gray-500">点击查看详情</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 冯如 -->
+            <div class="person-card bg-white rounded-xl shadow-md overflow-hidden cursor-pointer animate-fade-in-up" data-person="fengru">
+                <div class="image-scroll-container">
+                    <img src="img/冯如.png" alt="冯如" class="scrollable-image">
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">冯如</h3>
+                    <p class="text-gray-600 mb-4">1884-1912 · 中国航空之父</p>
+                    <div class="flex items-center mt-4">
+                        <span class="bg-red-100 text-red-800 text-xs px-2 py-1 rounded-full">航空科技</span>
+                        <span class="ml-2 text-sm text-gray-500">点击查看详情</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 司徒美堂 -->
+            <div class="person-card bg-white rounded-xl shadow-md overflow-hidden cursor-pointer animate-fade-in-up" data-person="sitimeitang">
+                <div class="image-scroll-container">
+                    <img src="img/司徒美堂.png" alt="司徒美堂" class="scrollable-image">
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">司徒美堂</h3>
+<p class="text-gray-600 mb-4">1868-1955 · 爱国侨领领袖</p>
+                    <div class="flex items-center mt-4">
+                        <span class="bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded-full">革命事业</span>
+                        <span class="ml-2 text-sm text-gray-500">点击查看详情</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 陈宜禧 -->
+<div class="person-card bg-white rounded-xl shadow-md overflow-hidden cursor-pointer animate-fade-in-up" data-person="chenyixi">
+                <div class="image-scroll-container">
+                    <img src="img/陈宜禧.png" alt="陈宜禧" class="scrollable-image">
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">陈宜禧</h3>
+                    <p class="text-gray-600 mb-4">1844-1929 · 侨乡铁路建设先驱</p>
+                    <div class="flex items-center mt-4">
+                        <span class="bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded-full">工程建设</span>
+                        <span class="ml-2 text-sm text-gray-500">点击查看详情</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 邓荫南 -->
+            <div class="person-card bg-white rounded-xl shadow-md overflow-hidden cursor-pointer animate-fade-in-up" data-person="dengyinnan">
+                <div class="image-scroll-container">
+                    <img src="img/邓荫南.png" alt="邓荫南" class="scrollable-image">
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">邓荫南</h3>
+                    <p class="text-gray-600 mb-4">1846-1923 · 革命义士</p>
+                    <div class="flex items-center mt-4">
+<span class="bg-indigo-100 text-indigo-800 text-xs px-2 py-1 rounded-full">革命事业</span>
+                        <span class="ml-2 text-sm text-gray-500">点击查看详情</span>
+</div>
+                </div>
+            </div>
+
+            <!-- 谢维立 -->
+            <div class="person-card bg-white rounded-xl shadow-md overflow-hidden cursor-pointer animate-fade-in-up" data-person="xieweili">
+                <div class="image-scroll-container">
+                    <img src="img/谢维立.png" alt="谢维立" class="scrollable-image">
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">谢维立</h3>
+                    <p class="text-gray-600 mb-4">1893-1970 · 立园创建者</p>
+                    <div class="flex items-center mt-4">
+                        <span class="bg-pink-100 text-pink-800 text-xs px-2 py-1 rounded-full">建筑文化</span>
+                        <span class="ml-2 text-sm text-gray-500">点击查看详情</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 李金发 -->
+            <div class="person-card bg-white rounded-xl shadow-md overflow-hidden cursor-pointer animate-fade-in-up" data-person="lijinfa">
+                <div class="image-scroll-container">
+                    <img src="img/李金发.png" alt="李金发" class="scrollable-image">
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">李金发</h3>
+                    <p class="text-gray-600 mb-4">1900-1976 · 象征主义诗歌先驱</p>
+                    <div class="flex items-center mt-4">
+                        <span class="bg-teal-100 text-teal-800 text-xs px-2 py-1 rounded-full">文学艺术</span>
+                        <span class="ml-2 text-sm text-gray-500">点击查看详情</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 伍盘照 -->
+            <div class="person-card bg-white rounded-xl shadow-md overflow-hidden cursor-pointer animate-fade-in-up" data-person="wupanzhao">
+                <div class="image-scroll-container">
+                    <img src="img/伍盘照.png" alt="伍盘照" class="scrollable-image">
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">伍盘照</h3>
+<p class="text-gray-600 mb-4">1867-1933 · 侨报拓荒者</p>
+                    <div class="flex items-center mt-4">
+                        <span class="bg-orange-100 text-orange-800 text-xs px-2 py-1 rounded-full">新闻传媒</span>
+                        <span class="ml-2 text-sm text-gray-500">点击查看详情</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 方君壮 -->
+            <div class="person-card bg-white rounded-xl shadow-md overflow-hidden cursor-pointer animate-fade-in-up" data-person="fangjunzhuang">
+                <div class="h-48 w-full overflow-hidden">
+                    <img src="img/方君壮.png" alt="方君壮" class="w-full h-full object-cover">
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">方君壮</h3>
+                    <p class="text-gray-600 mb-4">1901-1971 · 侨校教育家</p>
+                    <div class="flex items-center mt-4">
+                        <span class="bg-cyan-100 text-cyan-800 text-xs px-2 py-1 rounded-full">教育文化</span>
+<span class="ml-2 text-sm text-gray-500">点击查看详情</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 雷石榆 -->
+            <div class="person-card bg-white rounded-xl shadow-md overflow-hidden cursor-pointer animate-fade-in-up" data-person="leishiyu">
+                <div class="image-scroll-container">
+                    <img src="img/雷石榆.png" alt="雷石榆" class="scrollable-image">
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">雷石榆</h3>
+                    <p class="text-gray-600 mb-4">1911-1996 · 左联诗人</p>
+                    <div class="flex items-center mt-4">
+                        <span class="bg-lime-100 text-lime-800 text-xs px-2 py-1 rounded-full">文学艺术</span>
+                        <span class="ml-2 text-sm text-gray-500">点击查看详情</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 陈瑞祺 -->
+            <div class="person-card bg-white rounded-xl shadow-md overflow-hidden cursor-pointer animate-fade-in-up" data-person="chenruiqi">
+                <div class="h-48 w-full overflow-hidden">
+                    <img src="img/陈瑞祺.png" alt="陈瑞祺" class="w-full h-full object-cover">
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">陈瑞祺</h3>
+<p class="text-gray-600 mb-4">1878-1945 · 侨茶公益家</p>
+                    <div class="flex items-center mt-4">
+                        <span class="bg-amber-100 text-amber-800 text-xs px-2 py-1 rounded-full">商业公益</span>
+                        <span class="ml-2 text-sm text-gray-500">点击查看详情</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 黄洁 -->
+            <div class="person-card bg-white rounded-xl shadow-md overflow-hidden cursor-pointer animate-fade-in-up" data-person="huangjie">
+                <div class="image-scroll-container">
+                    <img src="img/黄洁.png" alt="黄洁" class="scrollable-image">
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">黄洁</h3>
+                    <p class="text-gray-600 mb-4">1899-1972 · 侨医仁术家</p>
+                    <div class="flex items-center mt-4">
+                        <span class="bg-rose-100 text-rose-800 text-xs px-2 py-1 rounded-full">医学卫生</span>
+                        <span class="ml-2 text-sm text-gray-500">点击查看详情</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 模态框结构 -->
+        <div id="person-modal" class="modal">
+            <div class="modal-content">
+                <span class="close-btn">&times;</span>
+                <div id="modal-content"></div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-gray-800 text-white py-8 mt-12">
+        <div class="container mx-auto px-4 text-center">
+            <p>&copy; 2023 江门市数字地图. 保留所有权利.</p>
+        </div>
+    </footer>
+
+    <script>
+        // 名人数据（添加拼音首字母字段）
+        const famousPeople = {
+            liangqichao: {
+                name: "梁启超",
+                pinyinInitial: "L",
+                title: "维新变法领袖与思想家",
+                years: "1873-1929",
+                category: "教育文化",
+                content: `
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">梁启超——以"少年中国"精神唤醒侨乡家国魂</h2>
+                    <div class="prose max-w-none">
+                        <p>梁启超（1873-1929），广东新会人，中国近代著名的思想家、政治家、教育家、史学家、文学家。戊戌变法领袖之一，中国近代维新派代表人物。</p>
+                        <p>其家族与侨乡文化渊源深厚。祖父梁维清曾任新会茶坑村塾师，常以"华工海外血泪史"教育子孙；父亲梁极宝瑛曾赴檀香山经商，亲历侨胞生存困境。梁启超少年时便在父亲书房读到《美洲华侨通鉴》，书中"华工修筑太平洋铁路，千人埋骨雪原"的记载，成为其"少年中国说"中"以天下为己任"思想的源头。</p>
+                        <p>1892年，梁启超在广州学海堂求学期间，收到父亲从南洋寄来的侨批，内附剪报《旧金山排华暴动实录》与家训："吾族欲存于世，必先破'东亚病夫'极之耻"。这封侨批促使他次年投身康有为门下，发起公车上书。</p>
+                        <p>1898年戊戌变法期间，梁启超通过江门籍华侨郑观应牵线，获南洋侨商捐资20万两白银，计划在广东创办"华侨实业学堂"，虽因变法失败搁置，但"侨资兴学"理念成为其侨乡文化思想的重要实践。</p>
+                        <p>梁启超故居现设"侨乡家风馆"，展出其家族与侨胞往来的127封侨批，其中"父诫子当为天下先，子劝父勿忘故土情"的对话，成为当代侨乡青少年家国情怀教育的鲜活教材。其"少年中国"精神更被写入江门市中学语文校本课程，与CAVE虚拟现实技术结合，学生可通过手势操作"穿越"至1898年万木草堂，与梁启超全息影像辩论"变法与侨乡复兴"。</p>
+                    </div>
+                `
+            },
+            fengru: {
+                name: "冯如",
+                pinyinInitial: "F",
+                title: "中国航空之父",
+                years: "1884-1912",
+                category: "航空科技",
+                content: `
+                    <h2 class="text-2xl font-bold text-gray-800极 mb-4">冯如——以"航空报国"志向架起侨乡科技桥</h2>
+                    <div class="prose max-w-none">
+                        <p>冯如（1884-1912），广东恩平人，中国第一位飞机设计师、制造师和飞行家。他于1909年成功试飞第一架飞机，被誉为"中国航空之父"。</p>
+                        <p>其家族世代侨居美国奥克兰，幼年目睹美国莱特兄弟试飞成功后，在父亲经营的华侨洗衣铺阁楼上，用旧钟表零件拼装出第一架木质滑翔机模型。</p>
+                        <p>1903年，19岁的冯如在旧金山华侨机械厂当学徒，利用侨胞捐赠的废旧汽车发动机，秘密研制飞机。为获取轻质材料，他多次走访恩平籍侨胞开设的木材行，最终用侨乡特产的红木与竹篾完成机身骨架。</p>
+                        <p>1909年9月21日，冯如在奥克兰郊外试飞"冯如1号"失败，机身坠毁。他当夜致信恩平侨胞："虽九死其犹未悔，愿以吾血荐轩辕"。次年10月，其改进机型"冯如2号"成功飞行804米，震惊世界，纽约《侨报》头版刊发社论《恩平儿郎振翅，南洋侨魂永存》。</p>
+                        <p>冯如纪念馆内陈列着其试飞时穿的皮夹克（由恩平侨胞缝制）与侨批原件，其中一封写道："如儿，父知你痴迷飞车，特汇500美元，望勿忘侨乡父老之盼"。如今，恩平市中小学开设"冯如航空课"，学生可用3D打印技术复原"冯如1号"模型，并通过AR技术"驾驶"飞机"飞越"恩平碉楼群，感受"侨乡精神与科技极报国"的融合。</p>
+                    </div>
+                `
+            },
+            huanglirong: {
+                name: "黄丽容",
+                pinyinInitial: "H",
+                title: "侨批文化守护者",
+                years: "1938-",
+                category: "文化保护",
+                content: `
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">黄丽容——以"侨批传情"守护侨乡文化根</h2>
+                    <div class="prose max-w-none">
+                        <p>黄丽容（1938- ），广东开平人，退休教师，被联合国教科文组织誉为"侨批活字典"。</p>
+                        <p>其父黄伯祥1923年下南洋，在马来西亚柔佛州经营橡胶园，40年间寄回217封侨批，黄丽容将每封批信按日期、事由、汇款金额分类编目，极并手绘《侨批传递路线极图》，标注出开平至新加坡的17个中转站。</p>
+                        <p>1952年大饥荒期间，黄丽容收到父亲侨批："容儿，家中缺粮可先借乡亲之米，吾下月汇款加倍偿还，勿忘'信'字重于山"。这封批信成为其一生恪守诚信的准则，退休后她义务为侨胞后代解读侨批1300余封，发现其中"还款契约""分家协议"等法律文书占37%。</p>
+                        <p>2007年，黄丽容发现开平塘口镇一栋碉楼内藏有3000封侨批，因年久霉变濒临损毁。她自费购置防潮箱，联合当地文化站逐页扫描修复，并整理出《侨批中的家训与乡规》一书，其中"早稻收割后必先还乡邻债务""女儿出嫁陪嫁不得超过兄弟聘礼"等条款，成为研究侨乡社会治理的珍贵史料。</p>
+                        <p>黄丽容在自宅开设"侨批传习所"，吸引新加坡、马来西亚侨胞后代返乡研学。她指导青少年用"侨批体极"写家书，将"微信语音"转换为"毛笔小楷"，并开发"侨批AR明信片"：扫描信封即可观看寄信人虚拟影像，重现"批脚"（邮差）穿越碉楼群送信的场景。其事迹被改编为粤剧《侨批情》，在江门五邑华侨广场连续演出56场，场场爆满。</p>
+                    </div>
+                `
+            },
+            sitimeitang: {
+                name: "司徒美堂",
+                pinyinInitial: "S",
+                title: "爱国侨领领袖",
+                years: "1868-1955",
+                category: "革命事业",
+                content: `
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">司徒美堂——以"洪门义胆"铸极就侨乡赤子魂</h2>
+                    <div class="prose max-w-none">
+                        <p>司徒美堂（1868-1955），广东开平赤坎镇人，美洲洪门致公堂创始人，被周恩来誉为"华侨旗帜、民族光辉"。</p>
+                        <p>他12岁赴美当厨工，目睹华工受辱后加入洪门，创立"安良堂"以武力护侨，却在辛亥革命后转身成为"和平义士"，其人生轨迹深刻烙印着侨乡文化的双重性——既有"江湖义气"的草根韧性，又有"家国大义"的士人风骨。</p>
+                        <p>1904年，孙中山赴美宣传革命，司徒美堂倾囊相助，不仅提供纽约唐人街寓所作为秘密联络点，更以洪门势力掩护革命党人。他常对侨胞说："吾辈漂泊异乡，若不助国，何以称人？"其纽约宅邸"安良总堂"至今保存着孙中山亲笔题写的"博爱"匾额，匾额边缘仍留有当年被联邦特工搜查时的弹孔。</p>
+                        <p>抗战时期，他发起"一碗饭运动"，号召侨胞每日省下一餐饭钱支援国内，亲赴南洋募捐，在槟城街头与侨领陈嘉庚彻夜长谈："华侨血汗钱，当化作刺向日寇的利刃！"</p>
+                        <p>1941年皖南事变后，他通电谴责蒋介石，并冒险护送中共代表潘汉年经香港返延安，其秘密信函中写道："美堂虽老，尚可学梁红玉击鼓抗金。"如今，开平赤坎古镇复原了司徒美堂少年时习武的"联珠楼"，游客可穿戴AR设备"穿越"至1911年旧金山唐人街，目睹他与孙中山密谈时窗外联邦密探窥视的惊险场景，体验侨乡仁人志士"江湖义气与革命热血"的交织。</p>
+                    </div>
+                `
+            },
+            chenyixi: {
+                name: "陈宜禧",
+                pinyinInitial: "C",
+                title: "侨乡铁路建设先驱",
+                years: "1844-1929",
+                category: "工程建设",
+                content: `
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">陈宜禧——以"铁路筑梦"串起侨乡山河情</h2>
+                    <div class="prose max-w-none">
+                        <p>陈极宜禧（1844-1929），广东台山人，中国第一条民办铁路——新宁铁路的缔造者。</p>
+                        <p>他16岁赴美当童工，在太平洋铁路工地上目睹"每根枕木下埋着一个华工"的惨状，却暗自记下铁路测绘技术。1904年，60岁的他变卖美国产业，带着40万美元和满箱铁路图纸返乡，向台山侨胞疾呼："吾辈宁做修路鬼，不为卖国奴！"</p>
+                        <p>为筹集修路资金，他独创"人股制"：凡认购一股者，无论贫富皆可获"极铁路纪念砖"，刻名嵌于沿线车站。开平赤坎站至今保存着一块刻有"卖菜阿婆李三妹"的砖石，见证着当年侨乡妇孺皆为铁路捐资的盛况。修路时，他坚持"不用洋匠、不借洋款"，甚至亲自跳入泥浆指挥打桩，导致右腿终身残疾。</p>
+                        <p>1920年新宁铁路全线通车时，他拒绝乘坐首班列车，而是步行巡查全线，极对随行人员说："此路乃吾等用血肉铺就，当以赤足丈量。"如今，台山端芬镇"翁家楼"内设有"新宁铁路数字展馆"，游客可通过手势操作"拼接"虚拟轨道，将AR投影的蒸汽机车驶过碉楼林立的侨乡大地，聆听陈宜禧用台山话录制的原声："此路通，则侨乡活；侨乡活，则中国兴！"其"以铁路连侨心"的精神，被写入粤港澳大湾区地理教材，与港珠澳大桥工程案例形成古今呼应。</p>
+                    </div>
+                `
+            },
+            dengyinnan: {
+                name: "邓荫南",
+                pinyinInitial: "D",
+                title: "革命义士",
+                years: "1846-1923",
+                category: "革命事业",
+                content: `
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">邓荫南——以"蔗园烽火"点燃侨乡革命火种</h2>
+                    <极div class="prose max-w-none">
+                        <p>邓荫南（1846-1923），广东鹤山人，南洋糖业大亨，却因资助革命倾家荡产，被孙中山称为"毁家纾难第一人"。</p>
+                        <p>他20极岁赴古巴经营蔗园，凭借侨乡带来的种蔗秘技，将荒地变为"金山糖都"。1895年广州起义失败极后，他散尽家财收容革命党人，极在蔗园密室中刻下"蔗甜因血沃，国强赖民醒"的对联。</p>
+                        <p>1907年潮州黄冈起义前夕，他冒死将600支步枪藏于糖包内运往国内，为掩人耳目，特制"侨乡陈皮糖"商标贴于箱外。起义失败后，清军搜查其古巴蔗园，发现账本中竟有"购枪款记作糖款""革命党人伙食费列支为蔗农补贴"的巧妙账目。</p>
+                        <p>晚年穷困潦倒时，他仍拒绝清廷招安，对劝降者说："吾宁食番薯粥，不做亡国奴！"其古巴故居"荫南糖庄"现存一张"革命账单"，记载着"购枪3000银元、抚恤烈士家属800银元、资助孙中山赴日船票200银元"等支出，每笔款项后都附有侨乡谚语批注，如"银钱如粪土，仁义值千金"。</p>
+                        <p>如今，鹤山华侨博物馆以"蔗糖革命"为主题设计互动展项：观众可亲手研磨"陈皮糖"，扫描包装即触发全息影像，目睹邓荫南与孙中山极在蔗园密谈时，蔗叶间闪烁的萤火虫化作革命星火，照亮侨乡暗夜。其"以商养战、以糖喻义"的智慧，成为当地中学"侨乡商业伦理课"的经典案例，学生需分组模拟经营"革命蔗园"，在利润与道义间抉择，体会百年前侨胞的艰难取舍。</p>
+                    </div>
+                `
+            },
+            xieweili: {
+                name: "谢维立",
+                pinyinInitial: "X",
+                title: "极立园创建者",
+                years: "1893-1970",
+                category: "建筑文化",
+                content: `
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">谢维立——以"碉楼密码"守护侨乡文明火种</h2>
+                    <div class="prose max-w-none">
+                        <p>谢维立（1893-1970），广东开平立园创建者，美籍华侨糖业巨子，却以"建筑密码"书写侨乡史诗。</p>
+                        <p>其家族三代下南洋，他独创"碉楼三重密码"：建筑形制藏族谱（碉楼层数对应辈分）、装饰纹样记侨史（罗马柱刻华侨淘金路线）、地窖暗格存文物（铁箱藏侨批原件与南洋契约）。</p>
+                        <p>1938年日军逼近开平，谢维立连夜将族中珍藏的127封侨批、36幅南洋华侨合影、18张檀香山唐人街地图封入立园"泮文楼"顶层密室。为防泄密，他特命工匠在密室入口处雕刻"二十四孝图"，暗藏机关：唯有按族谱生辰顺序按压孝子手掌，石门方启。</p>
+                        <p>1943年日军纵火烧村，谢维立亲率家丁泼水护楼，其吼声至今被村民传诵："楼在，侨魂在！"</p>
+                        <p>1957年谢维立临终前，将密室钥匙交予族极中私塾先生，附言："密码在《千字文》'天地玄黄'四字起首的侨批编号，解密后当知华侨百年泪。"1983极年，开平博物馆专家耗时3年破译密码，发现一封1912年侨批竟用显微镜可见的针孔密写技术，记录着孙中山美洲筹款路线。</p>
+                        <p>如今，立园密室已改造为"侨批解密实验室"，游客可手持紫外灯扫描复刻侨批，目睹"针孔密信"浮现"支持黄花岗起义"字样，体验侨胞"以信载史"的智慧。谢维立曾孙谢宇宁将碉楼密码技术申报非遗，联合华南理工大学开发"侨乡建筑密码"AR课程：学生扫描极楼窗棂，即可触发全息投影，看谢维立如何将"致公堂堂号"转化为罗马柱纹样密码，并亲手"触摸"虚拟侨批，感受针孔密写的触感差异。</p>
+                    </div>
+                `
+            },
+            lijinfa: {
+                name: "李金发",
+                pinyinInitial: "L",
+                title: "象征主义诗歌先驱",
+                years: "1900-1976",
+                category: "文学艺术",
+                content: `
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">李金发——以"诗雕侨语"熔铸中西诗魂</h2>
+                    <div class="prose max-w-none">
+                        <p>李金发（1900-1976），广东梅县人，中国象征主义诗歌先驱，被誉为"诗坛普罗米修斯"。</p>
+                        <p>他自幼随父旅居法国，在巴黎美院雕塑系求学时，将侨乡客家山歌韵律融入法语诗作，首创"侨乡十四行诗"，其代表作《弃妇》开篇即用梅县话谐极音："我似一块顽石，在塞纳河底/听潮水用客家话喊我乳名。"</p>
+                        <p>"侨音入诗"破中西壁垒：1925年李金发在《微雨》诗集中发表极《在巴黎墓园》，以侨乡祭祖习俗解构西方悼亡诗："我献上三炷香，/比十字架更早/照亮异乡的亡魂。"该诗被法国象征派诗人保尔福尔誉为"东方普鲁斯特的追忆"，却遭国内新文化派讥讽为"不伦不类"。李金发回应："侨胞本就是中西文化的混血儿，诗亦当如此。"</p>
+                        <p>"侨乡诗碑"刻时代记忆：1933年他归国任教国立杭州艺专，将巴黎街头拾得的侨胞家书残片熔铸成青铜诗碑，立于西湖孤山。碑文以客家话拼音与法语字母交错排列，需用镜面反射方能解读，如"Ngai mong ngo sui（我梦我岁）"对应法语"Je rêve de toi（我梦见你）"。</p>
+                        <p>如今，诗碑旁设"侨音解诗机"，游客可录制家乡方言，AI自动生成"侨乡十四行诗"，体验李金发"以声入诗"的创作理念。梅州东山中学开设"侨乡诗雕课"，学生用3D打印技术复原李金发诗碑，并仿其手法创作《在侨批局听雨》："雨滴敲打铁皮屋顶，/像南洋来信的电报声，/把'平安'二字/译成我掌心的纹路。"优秀作品被刻于梅县松口古镇新修的"侨诗回廊"，与百年侨批共展。</p>
+                    </div>
+                `
+            },
+            wupanzhao: {
+                name: "伍盘照",
+                title: "侨报拓荒者",
+                years: "1867-1933",
+                category: "新闻传媒",
+                content: `
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">伍盘照——以"侨报拓荒"架设跨洋信息桥</h2>
+                    <div class="prose max-w-none">
+                        <p>伍盘照（1867-1933），广东台山人，美国《少年中国晨报》创始人，首创"侨报立体传播体系"：日报载时政、周报发家书、月刊登乡讯、年刊录族谱。</p>
+                        <p>他独创"侨报三语码"：标题用中文大字、正文以英文注音、批语间杂台山方言，使不识字的侨妇亦能"听报知乡"。</p>
+                        <p>信息革命实践："电报译乡音"破时空壁垒：1905年旧金山大地震后，伍盘照租用西联电报公司线路，首创"侨报电讯服务"：侨胞支付50美分，即可将30字家书转为电报极码，由报社译成台山话韵文刊发。如"阿爸病愈，勿念"经电报员翻译为"阿爸个病好咗，你冇使挂住"，再配发《防治时疫方》附页，成为早期"信息扶贫"典范。</p>
+                        <p>"侨报数据库"存集体记忆：1928年伍盘照建立"侨报历史馆"，将1909年以来12万份侨报按"族姓-侨居地-事件"三维索引，如"李姓-古巴-罢工""张姓-檀香山-唐人街重建"等。其独创的"剪报拓印术"获美国专利：用糯米浆将侨报粘于宣纸，阴干后加盖"侨乡信息永流传"朱文印，使脆薄报纸极可保存百年。</p>
+                        <p>2018年，斯坦福大学图书馆据此建成"全球侨报极数字人文平台"，学者极可输入"台山+1910+铁路"等关键词，瞬间调取相关报道与读者批注。伍盘照曾孙伍国强将"侨报立体传播"理念转化为新媒体实践：其团队开发的"侨乡AI听报"小程序，可识别用户方言口音，自动匹配百年侨报中的相似表述，如输入"想食家乡黄鳝饭"，AI即检索出1932年《少年中国晨报》报道："唐人街新开'五邑饭店'，黄鳝饭用台山丝苗米，香飘三条街。"</p>
+                    </div>
+                `
+            },
+            fangjunzhuang: {
+                name: "方君壮",
+                title: "侨校教育家",
+                years: "1901-1971",
+                category: "教育文化",
+                content: `
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">方君壮——以"侨校星火"点燃岭南教育革命</h2>
+                    <div class="prose max-w-none">
+                        <p>方君壮（1901-1971），广东恩平人，马来西亚槟城"侨极智学校"校长，首创"侨校三维育人法"：晨课学《三字经》明伦理、午课用算盘算侨汇账、晚课演《雷雨》知人性。</p>
+                        <p>其独创"侨校币制度"，学生可用课堂表现兑换"侨智币"，在校园内"侨乡小市场"购买南洋手工艺品，体验"劳动换价值"。</p>
+                        <p>教育革新实践："侨批课堂"育家国情怀：1937年抗战爆发，方君壮将侨批引入教学：语文课分析批信中的家训，数学课计算侨汇与战时物价，音乐课传唱《批脚谣》。他特制极"侨批教具箱"，内含放大镜（观察邮戳）、天平（称量银元）、显微镜（解密密写），并编写《侨批里的中国极》教材，将"1938年槟城侨胞捐飞机"等史实转化为算术题："若每封侨批含捐款2元，5000封可购战机几架？"</p>
+                        <p>"侨校星火"燎原南洋：1949年方君壮拒绝台湾当局邀请，将侨智学校改为"新中国侨校"，秘密教授《新民主主义论》。他发明"侨校密码信"：学生将学习心得写在练习本边缘，以台山话谐音字伪装成错别字，如"共chan（产）主义"写作"公产义"。1950年马来亚当局搜查时，竟将"公产义"作文评为"语法规范"。</p>
+                        <极p>如今，槟城侨生公会博物馆仍存有"侨校密码信"原件，信纸背面印着方君壮手迹："笔杆即枪杆，侨校即战场。"恩平华侨中学复原"侨校三维育人"模式，开设"侨批金融课"：学生用区块链技术虚拟发行"侨智币"，购买南洋企业股票，并模拟1942年"侨汇断绝危机"进行压力测试。优秀案例被纳入粤港澳大湾区劳动教育教材，与深圳证券交易所合作开发"侨乡金融素养AR游戏"，玩家需在碉楼场景中完成"侨批解密-侨汇计算-侨企投资"全流程，理解侨乡"经济报国"传统。</p>
+                    </div>
+                `
+            },
+            leishiyu: {
+                name: "雷石榆",
+                title: "左联诗人",
+                years: "1911-1996",
+                category: "文学艺术",
+                content: `
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">雷石榆——以"侨诗淬火"锻造战时文艺铁骨</h2>
+                    <div class="prose max-w-none">
+                        <p>雷石榆（1911-1996），广东台山人，日本"左联"诗人，首创"侨诗爆破体"：以台山话爆破音（如"呯""嘭""迸"）为诗眼，将侨乡码头苦力号子、南洋橡胶园开山炮声融入诗句。</p>
+                        <p>其代表作《爆破的侨乡》开篇即用"呯！一封侨批炸开/旧金山唐人街的雾"，被日本进步文坛称为"用声音杀敌的文学"。</p>
+                        <p>文艺抗战实践："侨音入诗"破文化禁锢：1938年雷石榆在东京发起"侨诗爆破运动"，将侨批中的血泪字句转化为诗行。如将"阿母病极危，速寄药资"拆解为"阿（a）母（mu）病（bing）危（wei）"，每个拼音首字母对应日语假名"あ（a）む（mu）び（bi）ん（n）ゐ（wi）"，拼读后竟成日语反战标语"战争无意义"。此举遭日本当局通缉，他逃亡至横滨中华街，在侨胞协助下将诗稿缝入橡胶轮胎内胆运回中国。</p>
+                        <p>"侨诗电台"燃战火极诗情：1942年雷石榆加入东江极纵队，创办"爆破侨声"地下电台。他用侨乡方言录制诗歌，通过调整发报机电容值，使摩尔斯电码自带语音韵律。如发送"保家乡"时，故意将电码节奏与台山龙舟鼓点同步，接收方只需将电码输入特制"侨诗解码器"，即可还原出带乡音的朗诵。</p>
+                        <p>如今，东莞鸦片战争博物馆藏有该电台复制品，观众可亲手调节电容旋钮，聆听"电码变诗声"的奇妙过程。广州美术学院开设"侨诗爆破工作坊"，学生用声音可视化技术将雷石榆诗句转化为粒子特效，如"呯"字化作弹孔状光斑穿透侨乡碉楼影像。优秀作品在"湾区声音艺术双年展"展出时，配合全息投影技术，让观众置身于1938年东京侨诗朗诵会现场，感受"爆破音"如何震碎殖民者的文化压迫。</p>
+                    </div>
+                `
+            },
+            chenruiqi: {
+                name: "陈瑞祺",
+                title: "侨茶公益家",
+                years: "1878-1945",
+                category极: "商业公益",
+                content: `
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">陈瑞祺——以"侨茶济世"重构跨国公益伦理</h2>
+                    <div class="prose max-w-none">
+                        <p>陈瑞祺（1878-1945），广东新会人，锡兰（今斯里兰卡）华侨茶商，首创"侨茶公益链"：每售出一磅锡兰红茶，即提取3便士存入"侨胞互助基金"，用于赈济家乡灾民、资助南洋华校、赎买契约华工。</p>
+                        <p>其独创"侨茶三联单"：一联存茶庄、一联寄家乡、极一联入基金，单据边缘印有"茶香连侨极心，义举传三代"的微雕。</p>
+                        <p>"茶票赈灾"破传统救济：1927年新极会水灾，陈瑞祺将20万磅红茶包装改为"赈灾茶票"，购茶者可极凭票领取等值侨汇，或兑换新会葵扇、台山黄鳝饭食材。他在侨批中写道："此茶非饮，乃侨胞泪与汗之结晶。"更发明"茶船赈济法"：将救灾粮藏于茶叶箱夹层，借英国商船免税政策运抵广东，箱面贴"Ceylon Tea（锡兰茶）"标签，实则内藏"新会救荒米"暗码。</p>
+                        <p>"茶链赎身"解华工枷锁：1932年陈瑞祺发现锡兰茶园仍存在"猪仔华工"，遂发起"一磅茶赎一人"运动。他在茶箱内层夹带赎身契约模板，购茶者撕开包装即可填写赎人信息。为防殖民当局查禁，契约采用"茶票密码"：金额以茶叶等级（如A级=100卢比）代替数字，签名处印有侨乡宗祠图案。该运动3年赎回华工876人，其赎身契约现藏于科伦坡国家档案馆，成为极"以茶破奴"的跨国物证。</极p>
+                        <p>新会陈皮村打造"侨茶公益链"数字平台，游客扫码购买陈皮茶时，可自主选择将3%货款捐入"湾区侨胞互助基金"，捐赠记录同步上链，实时显示资金流向（如"为开平侨校购置AR设备"）。平台还复原"茶船赈济"场景，用户可通过VR驾驶虚拟商船，体验如何用茶叶箱夹层藏匿救灾物资。</p>
+                    </div>
+                `
+            },
+            huangjie: {
+                name: "黄洁",
+                title: "侨医仁术家",
+                years: "1899-1972",
+                category: "医学卫生",
+                content: `
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">黄洁——以"侨医仁术"贯通中西生命哲学</h2>
+                    <div class="prose max-w-none">
+                        <p>黄洁（1899-1972），广东中山人，古巴哈瓦那"华侨济生堂"掌门人，首创"侨医三联疗法"：西医手术刀+中医艾灸+侨乡药膳。</p>
+                        <p>她将古巴雪茄烟叶与中山神湾菠萝蜜入极药，研制出"雪茄止血散"，在1933年古巴霍乱中救活237名侨胞，被《纽约时报》称为"穿旗袍的南洋弗洛伦斯·南丁格尔"。</p>
+                        <p>"侨药解疫"破文化偏见：1933年霍乱爆发时，古巴当局禁止中医，黄洁将艾草制成"防疫香囊"，表面印西班牙语"Protección contra el cólera（霍乱防护）"，内藏侨乡谚语"艾草香，瘟神慌"。她更发明"侨医密码病历"：用《千字文》编号（如"天地玄黄"对应1-4号病床），药方以中药拉丁名与台山话谐音双关记录，如"Ginseng（人参）=金生（客家话'很生猛'）"，既符合药典规范，又让不识字的侨胞能理解药效。</p>
+                        <p>"侨医星火"燎原加勒比：1959年古巴革命后，黄洁将济生堂改为"中古联合诊所"，培训古巴医生使用"侨医三联疗法"。她独创"针灸人体模型"极：在橡胶人偶标注穴位时，将"足三里"译为"Punto de tres millas（三英里能量点）"，便于古巴患者记忆。</p>
+                        <p>其1962年编写的《侨医西语词典》收录术语2300条，如"阴虚"译为"Yin Deficiencia（能量月亮不足）"，成为拉美中医教育奠基之作。中山市中医院复原"侨医密码病历"系统，开发"中西医AI翻译助手"：输入现代药方后，可自动生成符合《极千字文》编号规则的古典病历，并附赠侨乡药膳配方。广州中医药大学与古巴高等医学部合作推出"侨医数字孪生实验室"，通过全息投影技术，让两国医学生"隔空"为虚拟病人施极针，黄洁的"三联疗法"教学视频成为必学案例。</p>
+                    </div>
+                `
+            }
+        };
+
+        // 模态框功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const modal = document.getElementById('person-modal');
+            const modalContent = document.getElementById('modal-content');
+            const closeBtn = document.querySelector('.close-btn');
+            const personCards = document.querySelectorAll('.person-card');
+
+            // 打开模态框
+            personCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    const personId = this.getAttribute('data-person');
+                    const person = famousPeople[personId];
+                    
+                    if (person) {
+                        modalContent.innerHTML = `
+                            <div class="mb-6">
+                                <h2 class="text-2xl font-bold text-gray-800">${person.name}</h2>
+                                <p class="text-gray-600">${person.years} · ${person.title}</p>
+                                <span class="inline-block mt-2 bg-blue-100 text-blue-800 text-sm px-3 py-1 rounded-full">${person.category}</span>
+                            </div>
+                            ${person.content}
+                        `;
+                        modal.style.display = 'block';
+                        document.body.style.overflow = 'hidden';
+                    }
+                });
+            });
+
+            // 关闭模态框
+            closeBtn.addEventListener('click', function() {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            });
+
+            // 点击模态框外部关闭
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    modal.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                }
+            });
+
+            // 索引系统功能
+            const indexLetters = document.querySelectorAll('.index-letter');
+            const indexCategories = document.querySelectorAll('.index-category');
+            const searchInput = document.getElementById('search-input');
+            const categoryFilter = document.getElementById('category-filter');
+
+            let currentLetterFilter = '';
+            let currentCategoryFilter = '';
+
+            // 字母索引点击事件
+            indexLetters.forEach(button => {
+                button.addEventListener('click', function() {
+                    const letter = this.getAttribute('data-letter');
+                    currentLetterFilter = currentLetterFilter === letter ? '' : letter;
+                    updateActiveButton(this, indexLetters, currentLetterFilter);
+                    filterCards();
+                });
+            });
+
+            // 分类索引点击事件
+            indexCategories.forEach(button => {
+                button.addEventListener('click', function() {
+                    const category = this.getAttribute('data-category');
+                    currentCategoryFilter = currentCategoryFilter === category ? '' : category;
+                    updateActiveButton(this, indexCategories, currentCategoryFilter);
+                    // 同时更新下拉菜单
+                    categoryFilter.value = currentCategoryFilter;
+                    filterCards();
+                });
+            });
+
+            // 搜索功能
+            searchInput.addEventListener('input', filterCards);
+            categoryFilter.addEventListener('change', function() {
+                currentCategoryFilter = this.value;
+                filterCards();
+            });
+
+            // 更新激活按钮样式
+            function updateActiveButton(activeButton, buttons, filterValue) {
+                buttons.forEach(btn => {
+                    if (filterValue && btn === activeButton) {
+                        btn.classList.add('bg-blue-500', 'text-white');
+                        btn.classList.remove('bg-blue-100', 'text-blue-800');
+                    } else {
+                        btn.classList.remove('bg-blue-500', 'text-white');
+                        btn.classList.add('bg-blue-100', 'text-blue-800');
+                    }
+                });
+            }
+
+            // 综合筛选函数
+            function filterCards() {
+                const searchTerm = searchInput.value.toLowerCase();
+                const filterValue = categoryFilter.value;
+
+                personCards.forEach(card => {
+                    const personId = card.getAttribute('data-person');
+                    const person = famousPeople[personId];
+                    const text = card.textContent.toLowerCase();
+                    
+                    // 检查搜索词匹配
+                    const matchesSearch = searchTerm === '' || text.includes(searchTerm);
+                    
+                    // 检查分类匹配
+                    const matchesCategory = filterValue === '' || person.category === filterValue;
+                    
+                    // 检查字母匹配（使用拼音首字母）
+                    const matchesLetter = currentLetterFilter === '' || 
+                                        person.pinyinInitial === currentLetterFilter;
+                    
+                    // 检查分类索引匹配
+                    const matchesIndexCategory = currentCategoryFilter === '' || 
+                                               person.category === currentCategoryFilter;
+
+                    if (matchesSearch && matchesCategory && matchesLetter && matchesIndexCategory) {
+                        card.style.display = 'block';
+                        card.classList.add('animate-fade-in-up');
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            }
+
+            // 初始化显示所有卡片
+            filterCards();
+
+            // 图片画廊功能
+            const imageGallery = document.getElementById('image-gallery');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+
+            // 名人图片数据
+            const galleryImages = [
+                { src: 'img/梁启超.png', name: '梁启超', personId: 'liangqichao' },
+                { src: 'img/冯如.png', name: '冯如', personId: 'fengru' },
+                { src: 'img/司徒美堂.png', name: '司徒美堂', personId: 'sitimeitang' },
+                { src: 'img/陈宜禧.png', name: '陈宜禧', personId: 'chenyixi' },
+                { src: 'img/邓荫南.png', name: '邓荫南', personId: 'dengyinnan' },
+                { src: 'img/谢维立.png', name: '谢维立', personId: 'xieweili' },
+                { src: 'img/李金发.png', name: '李金发', personId: 'lijinfa' },
+                { src: 'img/伍盘照.png', name: '伍盘照', personId: 'wupanzhao' },
+                { src: 'img/方君壮.png', name: '方君壮', personId: 'fangjunzhuang' },
+                { src: 'img/雷石榆.png', name: '雷石榆', personId: 'leishiyu' },
+                { src: 'img/陈瑞祺.png', name: '陈瑞祺', personId: 'chenruiqi' },
+                { src: 'img/黄洁.png', name: '黄洁', personId: 'huangjie' }
+            ];
+
+            // 生成图片画廊
+            function generateImageGallery() {
+                imageGallery.innerHTML = '';
+                galleryImages.forEach(image => {
+                    const imageElement = document.createElement('div');
+                    imageElement.className = 'gallery-image';
+                    imageElement.innerHTML = `
+                        <img src="${image.src}" alt="${image.name}" 
+                             onclick="scrollToPersonCard('${image.personId}')">
+                    `;
+                    imageGallery.appendChild(imageElement);
+                });
+            }
+
+            // 滚动到对应的名人卡片
+            window.scrollToPersonCard = function(personId) {
+                const card = document.querySelector(`[data-person="${personId}"]`);
+                if (card) {
+                    card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    // 添加高亮效果
+                    card.classList.add('ring-2', 'ring-primary', 'ring-opacity-50');
+                    setTimeout(() => {
+                        card.classList.remove('ring-2', 'ring-primary', 'ring-opacity-50');
+                    }, 2000);
+                }
+            };
+
+            // 导航按钮功能
+            prevBtn.addEventListener('click', () => {
+                imageGallery.scrollBy({ left: -300, behavior: 'smooth' });
+            });
+
+            nextBtn.addEventListener('click', () => {
+                imageGallery.scrollBy({ left: 300, behavior: 'smooth' });
+            });
+
+            // 鼠标滚轮水平滚动
+            imageGallery.addEventListener('wheel', (e) => {
+                e.preventDefault();
+                imageGallery.scrollLeft += e.deltaY * 2;
+            });
+
+            // 触摸滑动支持
+            let touchStartX = 0;
+            imageGallery.addEventListener('touchstart', (e) => {
+                touchStartX = e.touches[0].clientX;
+            });
+
+            imageGallery.addEventListener('touchmove', (e) => {
+                e.preventDefault();
+                const touchX = e.touches[0].clientX;
+                const diff = touchStartX - touchX;
+                imageGallery.scrollLeft += diff * 2;
+                touchStartX = touchX;
+            });
+
+            // 初始化图片画廊
+            generateImageGallery();
+        });
+    </script>
+</body>
+
+</html>

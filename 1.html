@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>历史名人文化地图 - 侨乡精神传承</title>
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='%23165DFF'/><path d='M16 8L20 14L26 16L20 18L16 24L12 18L6 16L12 14L16 8Z' fill='white'/><circle cx='16' cy='16' r='4' fill='%23FF7D00'/></svg>" type="image/svg+xml">
+    <style>
+        /* 基础样式重置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+
+        /* 页面主体样式 */
+        body {
+            background: #f5f5f5;
+            padding: 20px;
+        }
+
+        /* 图片容器样式 */
+        .image-container {
+            position: relative;
+            width: 800px;
+            max-width: 90%;
+            margin: 0 auto;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            background: white;
+        }
+
+        /* 背景图片样式 */
+        .base-image {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 8px;
+        }
+
+        /* 标注图标通用样式 */
+        .annotation-icon {
+            position: absolute;
+            width: 50px;
+            height: 24px;
+            background: #ff4444;
+            border: 2px solid #ff1a1a;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 5px;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .annotation-icon:hover {
+            transform: translate(-50%, -50%) scale(1.2);
+            background: #ff6666;
+        }
+
+        /* 弹窗遮罩层 */
+        .modal-mask {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(2px);
+        }
+
+        /* 弹窗内容样式 */
+        .modal-content {
+            background: linear-gradient(135deg, #ff4444 0%, #ff9999 100%);
+            border: 3px solid #ff1a1a;
+            padding: 25px;
+            border-radius: 12px;
+            max-width: 90%;
+            width: 600px;
+            position: relative;
+            transform: translateY(-20px);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+
+            /* 新增滚动条相关样式 */
+            max-height: 80vh;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: #ff6666 transparent;
+        }
+
+        /* 自定义滚动条样式（Webkit内核浏览器） */
+        .modal-content::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .modal-content::-webkit-scrollbar-track {
+            background: transparent;
+            margin: 10px 0;
+        }
+
+        .modal-content::-webkit-scrollbar-thumb {
+            background: #ff6666;
+            border-radius: 4px;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .modal-content::-webkit-scrollbar-thumb:hover {
+            background: #ff4444;
+        }
+
+        /* 确保滚动区域包含所有内容 */
+        .modal-content>* {
+            min-width: 600px;
+        }
+
+        /* 内部白色渐变层 */
+        .modal-content::after {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.1) 100%);
+            border-radius: 8px;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* 确保内容在渐变层上方 */
+        .modal-content>* {
+            position: relative;
+            z-index: 2;
+            min-width: inherit;
+            /* 让子元素继承父容器的 min-width */
+        }
+
+        /* 弹窗标题样式 */
+        #modal-title {
+            color: #cc0000;
+            margin-bottom: 15px;
+            font-size: 1.8em;
+            border-bottom: 3px solid #ffe6e6;
+            padding-bottom: 8px;
+            display: inline-block;
+            text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
+        }
+
+        /* 弹窗图片样式 */
+        .modal-image {
+            max-width: 90%;
+            height: auto;
+            margin: 15px auto;
+            border-radius: 8px;
+            display: block;
+            border: 4px solid white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* 关闭按钮样式 */
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            cursor: pointer;
+            font-size: 2em;
+            color: white;
+            text-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+            transition: transform 0.2s;
+        }
+
+        .close-btn:hover {
+            transform: scale(1.1) rotate(90deg);
+        }
+
+        /* 弹窗正文样式 */
+        #modal-text {
+            color: #330000;
+            line-height: 1.8;
+            font-size: 1.1em;
+            margin-top: 15px;
+            text-align: justify;
+            background: rgba(255, 255, 255, 0.3);
+            padding: 15px;
+            border-radius: 6px;
+            backdrop-filter: blur(5px);
+        }
+
+        /* 弹窗显示动画 */
+        .modal-mask.show .modal-content {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .image-container {
+                width: 100%;
+                max-width: 100%;
+                border-radius: 8px;
+            }
+            
+            .modal-content {
+                width: 95%;
+                padding: 15px;
+                margin: 10px;
+            }
+
+            #modal-title {
+                font-size: 1.3em;
+            }
+            
+            #modal-text {
+                font-size: 1em;
+                line-height: 1.6;
+                padding: 10px;
+            }
+
+            .annotation-icon {
+                width: 24px;
+                height: 24px;
+                font-size: 10px;
+            }
+            
+            .modal-image {
+                max-width: 100%;
+                border-width: 2px;
+            }
+            
+            .close-btn {
+                font-size: 1.5em;
+                top: 10px;
+                right: 10px;
+            }
+        }
+
+        /* 触摸设备优化 */
+        @media (hover: none) and (pointer: coarse) {
+            .annotation-icon:hover {
+                transform: translate(-50%, -50%) scale(1) !important;
+            }
+        }
+
+        /* 移动端安全区域支持 */
+        @supports(padding: max(0px)) {
+            @media (max-width: 768px) {
+                body {
+                    padding-left: max(10px, env(safe-area-inset-left));
+                    padding-right: max(10px, env(safe-area-inset-right));
+                    padding-bottom: max(10px, env(safe-area-inset-bottom));
+                }
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 图片容器 -->
+    <div class="image-container">
+        <img src="src/Background.jpg" alt="江门历史名人文化地图" class="base-image">
+    </div>
+
+    <!-- 弹窗结构 -->
+    <div class="modal-mask">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2 id="modal-title"></h2>
+            <img src="" alt="详情图片" class="modal-image" id="modal-image">
+            <p id="modal-text"></p>
+        </div>
+    </div>
+
+    <script>
+        // 标注数据配置 - 更新为准确的信息
+        const annotations = [
+            {
+                position: { x: '78%', y: '35%' },
+                name: '梁启超',
+                title: '梁启超——维新变法领袖与思想家',
+                image: 'https://picsum.photos/seed/liangqichao/600/400',
+                text: '梁启超（1873-1929），广东新会人，中国近代著名的思想家、政治家、教育家、史学家、文学家。戊戌变法领袖之一，中国近代维新派代表人物。他倡导新文化运动，支持五四运动，其著作合编为《饮冰室合集》。'
+            },
+            {
+                position: { x: '34%', y: '40%' },
+                name: '冯如',
+                title: '冯如——中国航空之父',
+                image: 'https://picsum.photos/seed/fengru/600/400',
+                text: '冯如（1884-1912），广东恩平人，中国第一位飞机设计师、制造师和飞行家。他于1909年成功试飞第一架飞机，被誉为"中国航空之父"。1912年在广州一次飞行表演中不幸失事殉职，年仅28岁。'
+            },
+            {
+                position: { x: '57%', y: '57%' },
+                name: '陈宜禧',
+                title: '陈宜禧——侨乡铁路建设先驱',
+                image: 'https://picsum.photos/seed/chenyixi/600/400',
+                text: '陈宜禧（1844-1929），广东台山人，著名华侨实业家。他主持修建了中国第一条民办铁路——新宁铁路，为江门地区的交通发展和经济建设做出了重大贡献，是侨乡实业救国的典范。'
+            },
+            {
+                position: { x: '73%', y: '33%' },
+                name: '郑潮炯',
+                title: '郑潮炯——爱国义卖支援抗战',
+                image: 'https://picsum.photos/seed/zhengchaojiong/600/400',
+                text: '郑潮炯（1904-1984），广东新会人，著名爱国华侨。抗日战争期间，他通过义卖瓜子筹集资金支援祖国抗战，被誉为"瓜子大王"。其爱国事迹在侨界广为传颂。'
+            },
+            {
+                position: { x: '65%', y: '55%' },
+                name: '郑观应',
+                title: '郑观应——近代维新思想家',
+                image: 'https://picsum.photos/seed/zhengguanying/600/400',
+                text: '郑观应（1842-1922），广东香山人，中国近代最早具有完整维新思想体系的理论家、启蒙思想家，也是实业家、教育家、文学家、慈善家和热忱的爱国者。他的《盛世危言》对中国近代思想启蒙产生了重要影响。'
+            },
+            {
+                position: { x: '50%', y: '40%' },
+                name: '司徒美堂',
+                title: '司徒美堂——爱国侨领领袖',
+                image: 'https://picsum.photos/seed/situmeitang/600/400',
+                text: '司徒美堂（1868-1955），广东开平人，著名爱国华侨领袖。他是洪门致公堂的重要领导人，积极支持孙中山革命活动，为辛亥革命和抗日战争做出了重要贡献。'
+            }
+        ];
+
+        // 初始化标注图标
+        function initAnnotations() {
+            const container = document.querySelector('.image-container');
+
+            annotations.forEach(anno => {
+                const icon = document.createElement('div');
+                icon.className = 'annotation-icon';
+                icon.style.left = anno.position.x;
+                icon.style.top = anno.position.y;
+
+                // 修改点：显示姓名而非数字
+                icon.textContent = anno.name;  // 改为显示姓名
+
+                // 绑定点击事件（保持不变）
+                icon.addEventListener('click', () => openModal(anno));
+
+                // 新增：处理长姓名的显示优化
+                if (anno.name.length > 2) {
+                    icon.style.fontSize = '10px';
+                    icon.style.padding = '3px';
+                }
+
+                container.appendChild(icon);
+            });
+        }
+
+        // 打开弹窗
+        function openModal(data) {
+            const modal = document.querySelector('.modal-mask');
+            const title = document.getElementById('modal-title');
+            const image = document.getElementById('modal-image');
+            const text = document.getElementById('modal-text');
+
+            title.textContent = data.title;
+            image.src = data.image;
+            image.alt = data.title;
+            text.innerHTML = data.text;
+
+            modal.style.display = 'flex';
+            setTimeout(() => modal.classList.add('show'), 10);
+        }
+
+        // 关闭弹窗
+        function closeModal() {
+            const modal = document.querySelector('.modal-mask');
+            modal.classList.remove('show');
+            setTimeout(() => {
+                modal.style.display = 'none';
+            }, 300);
+        }
+
+        // 事件委托处理关闭
+        document.querySelector('.modal-mask').addEventListener('click', (e) => {
+            if (e.target.classList.contains('modal-mask') ||
+                e.target.classList.contains('close-btn')) {
+                closeModal();
+            }
+        });
+
+        // 初始化
+        window.onload = () => {
+            initAnnotations();
+        };
+    </script>
+</body>
+
+</html>
