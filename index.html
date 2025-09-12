@@ -297,24 +297,150 @@
             align-items: center;
             justify-content: center;
         }
+
+        /* 帮助系统样式 */
+        /* 悬浮帮助按钮 */
+        .help-floating-btn {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 3.5rem;
+            height: 3.5rem;
+            background: linear-gradient(135deg, #165DFF, #36BFFA);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 20px rgba(22, 93, 255, 0.3);
+            cursor: pointer;
+            z-index: 9999;
+            transition: all 0.3s ease;
+        }
+        
+        .help-floating-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 25px rgba(22, 93, 255, 0.4);
+        }
+        
+        /* 模态框样式 */
+        .help-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 10000;
+            overflow-y: auto;
+        }
+        
+        .help-modal-content {
+            background: white;
+            margin: 2rem auto;
+            padding: 2rem;
+            border-radius: 16px;
+            max-width: 800px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            animation: modalSlideIn 0.3s ease-out;
+        }
+        
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        
+        .close-help {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+            background: none;
+            border: none;
+        }
+        
+        /* 选项卡样式 */
+        .help-tabs {
+            display: flex;
+            border-bottom: 2px solid #e5e7eb;
+            margin-bottom: 2rem;
+        }
+        
+        .help-tab {
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .help-tab.active {
+            border-bottom-color: #165DFF;
+            color: #165DFF;
+            font-weight: 600;
+        }
+        
+        .help-tab-content {
+            display: none;
+        }
+        
+        .help-tab-content.active {
+            display: block;
+        }
+        
+        /* 移动端优化 */
+        @media (max-width: 768px) {
+            .help-floating-btn {
+                bottom: 1.5rem;
+                right: 1.5rem;
+                width: 3rem;
+                height: 3rem;
+            }
+            
+            .help-modal-content {
+                margin: 1rem auto;
+                padding: 1.5rem;
+                width: 95%;
+            }
+            
+            .help-tabs {
+                flex-wrap: wrap;
+            }
+            
+            .help-tab {
+                padding: 0.5rem 1rem;
+                font-size: 0.9rem;
+            }
+        }
     </style>
 </head>
 
-<body class="bg-light font-sans text-dark antialiased"
+<body class="bg-light font-sans text-dark antialiased m-0 p-0"
     style="background-image: url('src/Background.jpg'); background-size: cover; background-position: center; background-attachment: fixed;" loading="lazy">
     <!-- 添加半透明遮罩层 -->
     <div class="absolute inset-0 bg-black/20 z-[-1]"></div>
-    <header class="bg-white shadow-sm sticky top-0 z-[1000] transition-all duration-300">
-        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+    <header class="bg-white shadow-sm sticky top-0 z-[1000] transition-all duration-300 w-full left-0 right-0">
+        <div class="w-full mx-auto px-4 py-4 flex justify-between items-center">
             <div class="flex items-center space-x-2">
                 <i class="fa fa-map-marker text-primary text-2xl"></i>
                 <h1 class="text-xl font-bold text-primary">江门市数字地图</h1>
             </div>
-            <nav class="hidden md:flex items-center space-x-8">
+            <nav class="hidden md:flex items-center space-x-8 ml-auto">
                 <a href="index.html" class="text-dark hover:text-primary transition-colors duration-200 font-medium">首页</a>
                 <a href="#popular-spots" class="text-dark hover:text-primary transition-colors duration-200 font-medium">热门景点</a>
-            
                 <a href="famous-people.html" class="text-dark hover:text-primary transition-colors duration-200 font-medium">名人风采</a>
+                <a href="gallery.html" class="text-dark hover:text-primary transition-colors duration-200 font-medium">图片画廊</a>
                 <a href="micro-course.html" class="text-dark hover:text-primary transition-colors duration-200 font-medium">微课</a>
                 <a href="#contact" class="text-dark hover:text-primary transition-colors duration-200 font-medium">联系我们</a>
             </nav>
@@ -323,14 +449,15 @@
             </button>
         </div>
         <!-- 移动端菜单 -->
-        <div class="md:hidden hidden bg-white border-t" id="mobile-menu">
-            <div class="container mx-auto px-4 py-2 flex flex-col space-y-3">
+        <div class="md:hidden hidden bg-white border-t w-full" id="mobile-menu">
+            <div class="w-full px-4 py-2 flex flex-col space-y-3">
                 <a href="index.html" class="py-2 text-dark hover:text-primary transition-colors duration-200 font-medium">首页</a>
                 <a href="#popular-spots"
                     class="py-2 text-dark hover:text-primary transition-colors duration-200 font-medium">热门景点</a>
-                
                 <a href="famous-people.html"
                     class="py-2 text-dark hover:text-primary transition-colors duration-200 font-medium">名人风采</a>
+                <a href="gallery.html"
+                    class="py-2 text-dark hover:text-primary transition-colors duration-200 font-medium">图片画廊</a>
                 <a href="micro-course.html"
                     class="py-2 text-dark hover:text-primary transition-colors duration-200 font-medium">微课</a>
                 <a href="#contact"
@@ -477,6 +604,291 @@
     </footer>
 
     <script src="js/map.js"></script>
+
+    <!-- 帮助系统悬浮按钮 -->
+    <div class="help-floating-btn" id="help-floating-btn">
+        <i class="fa fa-question-circle text-xl"></i>
+    </div>
+
+    <!-- 帮助模态框 -->
+    <div class="help-modal" id="help-modal">
+        <div class="help-modal-content">
+            <button class="close-help" id="close-help">&times;</button>
+            
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">江门市数字地图使用说明</h2>
+            
+            <!-- 选项卡导航 -->
+            <div class="help-tabs">
+                <div class="help-tab active" data-tab="overview">网站概述</div>
+                <div class="help-tab" data-tab="functions">功能介绍</div>
+                <div class="help-tab" data-tab="pages">页面说明</div>
+                <div class="help-tab" data-tab="usage">使用指南</div>
+            </div>
+            
+            <!-- 网站概述 -->
+            <div class="help-tab-content active" id="tab-overview">
+                <div class="prose max-w-none">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">🌐 网站概述</h3>
+                    <p class="text-gray-600 mb-4">江门市数字地图是一个专为探索侨乡文化而设计的综合性数字平台，致力于展示江门丰富的历史文化遗产和现代发展成就。</p>
+                    
+                    <div class="bg-blue-50 p-4 rounded-lg mb-4">
+                        <h4 class="font-semibold text-blue-800 mb-2">🎯 核心价值</h4>
+                        <ul class="text-blue-700 space-y-1">
+                            <li>• 数字化保存和传播侨乡文化</li>
+                            <li>• 提供沉浸式的文化探索体验</li>
+                            <li>• 连接历史与现代的文化桥梁</li>
+                            <li>• 教育性和娱乐性相结合的平台</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+                        <div class="bg-green-50 p-4 rounded-lg">
+                            <h4 class="font-semibold text-green-800 mb-2">📊 数据规模</h4>
+                            <p class="text-green-700">收录20+位江门名人、50+个文化景点、100+张历史图片，持续更新中</p>
+                        </div>
+                        <div class="bg-purple-50 p-4 rounded-lg">
+                            <h4 class="font-semibold text-purple-800 mb-2">🎨 技术特色</h4>
+                            <p class="text-purple-700">响应式设计、交互式地图、多媒体展示、智能搜索</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 功能介绍 -->
+            <div class="help-tab-content" id="tab-functions">
+                <div class="prose max-w-none">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">🚀 主要功能</h3>
+                    
+                    <div class="space-y-6">
+                        <div class="flex items-start space-x-4">
+                            <div class="flex-shrink-0 w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                                <i class="fa fa-map text-blue-600 text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-800">交互式数字地图</h4>
+                                <p class="text-gray-600">探索江门各个文化地点的精确位置，查看详细信息和使用导航功能。</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start space-x-4">
+                            <div class="flex-shrink-0 w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                                <i class="fa fa-users text-green-600 text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-800">名人风采展示</h4>
+                                <p class="text-gray-600">深入了解江门历史名人的生平事迹、贡献成就和文化影响。</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start space-x-4">
+                            <div class="flex-shrink-0 w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
+                                <i class="fa fa-picture-o text-purple-600 text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-800">图片画廊</h4>
+                                <p class="text-gray-600">浏览高质量的历史图片、文化场景和建筑风貌。</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start space-x-4">
+                            <div class="flex-shrink-0 w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center">
+                                <i class="fa fa-graduation-cap text-orange-600 text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-800">文化微课</h4>
+                                <p class="text-gray-600">学习侨乡文化的系统课程，包含历史、建筑、艺术等多个主题。</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start space-x-4">
+                            <div class="flex-shrink-0 w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
+                                <i class="fa fa-search text-red-600 text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-800">智能搜索</h4>
+                                <p class="text-gray-600">快速找到您感兴趣的内容，支持关键词、分类、时间等多种搜索方式。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 页面说明 -->
+            <div class="help-tab-content" id="tab-pages">
+                <div class="prose max-w-none">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">📄 页面说明</h3>
+                    
+                    <div class="space-y-6">
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h4 class="font-semibold text-gray-800 mb-2">🏠 首页 - 数字地图</h4>
+                            <p class="text-gray-600">主页面提供交互式地图，展示江门各个文化地点的分布。包含：</p>
+                            <ul class="text-gray-600 list-disc list-inside mt-2">
+                                <li>可缩放、可拖动的数字地图</li>
+                                <li>地点标记和详细信息面板</li>
+                                <li>热门景点推荐</li>
+                                <li>快速导航功能</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <h4 class="font-semibold text-blue-800 mb-2">👥 名人风采</h4>
+                            <p class="text-blue-700">收录江门地区20多位历史名人和文化名人，包括：</p>
+                            <ul class="text-blue-700 list-disc list-inside mt-2">
+                                <li>梁启超 - 维新变法领袖</li>
+                                <li>冯如 - 中国航空之父</li>
+                                <li>司徒美堂 - 爱国侨领</li>
+                                <li>陈宜禧 - 铁路建设先驱</li>
+                                <li>以及其他重要文化人物</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-green-50 p-4 rounded-lg">
+                            <h4 class="font-semibold text-green-800 mb-2">🖼️ 图片画廊</h4>
+                            <p class="text-green-700">展示江门丰富的视觉文化遗产：</p>
+                            <ul class="text-green-700 list-disc list-inside mt-2">
+                                <li>历史人物肖像</li>
+                                <li>文化建筑照片</li>
+                                <li>历史场景重现</li>
+                                <li>现代发展成就</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-purple-50 p-4 rounded-lg">
+                            <h4 class="font-semibold text-purple-800 mb-2">🎓 微课系统</h4>
+                            <p class="text-purple-700">提供系统的文化学习内容：</p>
+                            <ul class="text-purple-700 list-disc list-inside mt-2">
+                                <li>侨乡历史溯源</li>
+                                <li>侨批文化解读</li>
+                                <li>碉楼建筑艺术</li>
+                                <li>更多专题课程（开发中）</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 使用指南 -->
+            <div class="help-tab-content" id="tab-usage">
+                <div class="prose max-w-none">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">📖 使用指南</h3>
+                    
+                    <div class="space-y-4">
+                        <div class="bg-yellow-50 p-4 rounded-lg">
+                            <h4 class="font-semibold text-yellow-800 mb-2">🖱️ 基本操作</h4>
+                            <ul class="text-yellow-700 space-y-2">
+                                <li><strong>地图浏览：</strong>使用鼠标滚轮缩放，拖动地图移动</li>
+                                <li><strong>地点查看：</strong>点击地图标记查看详细信息</li>
+                                <li><strong>页面导航：</strong>使用顶部菜单栏切换不同页面</li>
+                                <li><strong>搜索功能：</strong>在相应页面使用搜索框快速查找</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <h4 class="font-semibold text-blue-800 mb-2">📱 移动端使用</h4>
+                            <ul class="text-blue-700 space-y-2">
+                                <li>支持所有主流移动浏览器</li>
+                                <li>触摸屏友好的交互设计</li>
+                                <li>自适应不同屏幕尺寸</li>
+                                <li>离线缓存功能（部分内容）</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-green-50 p-4 rounded-lg">
+                            <h4 class="font-semibold text-green-800 mb-2">💡 使用技巧</h4>
+                            <ul class="text-green-700 space-y-2">
+                                <li>使用Ctrl+F（Cmd+F）进行页面内搜索</li>
+                                <li>右键点击地图标记可快速导航</li>
+                                <li>收藏重要页面以便快速访问</li>
+                                <li>使用浏览器的缩放功能调整文字大小</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-red-50 p-4 rounded-lg">
+                            <h4 class="font-semibold text-red-800 mb-2">❓ 常见问题</h4>
+                            <ul class="text-red-700 space-y-2">
+                                <li><strong>Q：地图加载慢？</strong> A：请检查网络连接，大图片可能需要时间加载</li>
+                                <li><strong>Q：如何返回首页？</strong> A：点击顶部菜单的"首页"或页面中的返回按钮</li>
+                                <li><strong>Q：内容会更新吗？</strong> A：是的，我们会定期更新和添加新内容</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 p-4 bg-gray-100 rounded-lg">
+                        <p class="text-gray-600 text-sm">💝 感谢您使用江门市数字地图，我们希望这个平台能帮助您更好地了解和体验侨乡文化的魅力！</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 联系信息 -->
+            <div class="mt-8 pt-6 border-t border-gray-200">
+                <h4 class="font-semibold text-gray-800 mb-3">📞 联系我们</h4>
+                <p class="text-gray-600">如有任何问题或建议，请联系我们：</p>
+                <p class="text-gray-600">邮箱：info@jiangmen-map.com</p>
+                <p class="text-gray-600">电话：0750-1234567</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 帮助系统脚本 -->
+    <script>
+        // 帮助系统功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const helpBtn = document.getElementById('help-floating-btn');
+            const helpModal = document.getElementById('help-modal');
+            const closeHelp = document.getElementById('close-help');
+            const helpTabs = document.querySelectorAll('.help-tab');
+            
+            // 检查是否首次访问
+            if (!localStorage.getItem('helpShown')) {
+                setTimeout(() => {
+                    helpModal.style.display = 'block';
+                    localStorage.setItem('helpShown', 'true');
+                }, 1000);
+            }
+            
+            // 打开帮助模态框
+            helpBtn.addEventListener('click', function() {
+                helpModal.style.display = 'block';
+            });
+            
+            // 关闭帮助模态框
+            closeHelp.addEventListener('click', function() {
+                helpModal.style.display = 'none';
+            });
+            
+            // 点击模态框外部关闭
+            helpModal.addEventListener('click', function(e) {
+                if (e.target === helpModal) {
+                    helpModal.style.display = 'none';
+                }
+            });
+            
+            // 选项卡切换
+            helpTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // 移除所有active类
+                    helpTabs.forEach(t => t.classList.remove('active'));
+                    document.querySelectorAll('.help-tab-content').forEach(c => c.classList.remove('active'));
+                    
+                    // 添加active类
+                    this.classList.add('active');
+                    const tabId = this.getAttribute('data-tab');
+                    document.getElementById(`tab-${tabId}`).classList.add('active');
+                });
+            });
+            
+            // 键盘快捷键
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    helpModal.style.display = 'none';
+                }
+                if (e.key === '?' && e.ctrlKey) {
+                    helpModal.style.display = 'block';
+                    e.preventDefault();
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>
