@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>市场调研报告 - 自动重定向</title>
+    <title>市场调研报告 - 5G通信技术在智能交通领域</title>
+    <meta http-equiv="refresh" content="0; URL='market-research-report.html'">
     <style>
         body {
             font-family: "Microsoft YaHei", sans-serif;
@@ -34,18 +35,6 @@
             margin-bottom: 30px;
             opacity: 0.9;
         }
-        .loading {
-            display: inline-block;
-            width: 50px;
-            height: 50px;
-            border: 3px solid rgba(255,255,255,.3);
-            border-radius: 50%;
-            border-top-color: #fff;
-            animation: spin 1s ease-in-out infinite;
-        }
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
         .manual-link {
             margin-top: 30px;
             padding: 15px 30px;
@@ -67,26 +56,16 @@
     <div class="container">
         <h1>市场调研报告</h1>
         <p>正在自动跳转到5G通信技术市场调研报告页面...</p>
-        <div class="loading"></div>
-        <p style="margin-top: 20px; font-size: 0.9rem;">
-            如果页面没有自动跳转，请点击下方链接
-        </p>
+        <p>如果页面没有自动跳转，请点击下方链接</p>
         <a href="market-research-report.html" class="manual-link">
             立即访问市场调研报告
         </a>
+        <p style="margin-top: 20px; font-size: 0.9rem;">
+            或访问中文版本: 
+            <a href="%E5%B8%82%E5%9C%BA%E8%B0%83%E7%A0%94%E6%8A%A5%E5%91%8A.html" style="color: #fff; text-decoration: underline;">
+                中文版市场调研报告
+            </a>
+        </p>
     </div>
-
-    <script>
-        // 等待3秒后自动跳转
-        setTimeout(function() {
-            window.location.href = 'market-research-report.html';
-        }, 3000);
-        
-        // 同时提供中文版本的重定向选项
-        const chineseRedirect = document.createElement('a');
-        chineseRedirect.href = '%E5%B8%82%E5%9C%BA%E8%B0%83%E7%A0%94%E6%8A%A5%E5%91%8A.html';
-        chineseRedirect.style.display = 'none';
-        document.body.appendChild(chineseRedirect);
-    </script>
 </body>
 </html>
