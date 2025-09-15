@@ -1,334 +1,92 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-
 <head>
-    <link rel="stylesheet" href="css/style.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>江门市数字地图 - 探索侨乡文化</title>
-    <!-- SEO Meta Tags -->
-    <meta name="description" content="江门市数字地图，探索中国侨都的历史文化、名人故居和旅游景点。发现江门丰富的侨乡文化和历史遗产。">
-    <meta name="keywords" content="江门,数字地图,侨乡文化,名人故居,旅游景点,广东旅游">
-    <meta name="author" content="江门市数字地图">
-    <meta property="og:title" content="江门市数字地图 - 探索侨乡旅，感受江门的历史文化魅力">
-    <meta property="og:type" content="website">
-    <meta property="og:image" content="src/Background.jpg">
-    <!-- Favicon -->
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='%23165DFF'/><path d='M16 8L20 14L26 16L20 18L16 24L12 18L6 16L12 14L16 8Z' fill='white'/><circle cx='16' cy='16' r='4' fill='%23FF7D00'/></svg>" type="image/svg+xml">
-    <!-- Leaflet CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font Awesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <!-- Leaflet JS -->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-    <!-- 配置Tailwind CSS自定义颜色和字体 -->
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#165DFF',
-                        secondary: '#36BFFA',
-                        accent: '#FF7D00',
-                        red: '#EF4444',
-                        dark: '#1D2939',
-                        light: '#F9FAFB',
-                        'map-bg': '#F0F4F8'
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'system-ui', 'sans-serif']
-                    }
-                }
-            }
+    <title>市场调研报告 - 自动重定向</title>
+    <style>
+        body {
+            font-family: "Microsoft YaHei", sans-serif;
+            text-align: center;
+            padding: 50px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
-    </script>
-    <style type="text/tailwindcss">
-        @layer utilities {
-            .content-auto {
-                content-visibility: auto;
-            }
-            .map-shadow {
-                box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
-            }
-            .marker-pulse {
-                animation: pulse 2s infinite;
-            }
-            .fade-in {
-                animation: fadeIn 0.5s ease-in-out;
-            }
-            .slide-up {
-                animation: slideUp 0.5s ease-out;
-            }
-            .scale-in {
-                animation: scaleIn 0.3s ease-out;
-            }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
         }
-        
-        /* 动画定义 */
-        @keyframes pulse {
-            0% {
-                transform: scale(0.95);
-                box-shadow: 0 0 0 0 rgba(22, 93, 255, 0.7);
-            }
-            
-            70% {
-                transform: scale(1);
-                box-shadow: 0 0 0 10px rgba(22, 93, 255, 0);
-            }
-            
-            100% {
-                transform: scale(0.95);
-                box-shadow: 0 0 0 0 rgba(22, 93, 255, 0);
-            }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
         }
-        
-        @keyframes slideUp {
-            from { transform: translateY(20px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
+        .loading {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
         }
-        
-        @keyframes scaleIn {
-            from { transform: scale(0.95); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
-        
-        /* 自定义地图标记样式 */
-        .custom-marker {
-            transition: transform 0.2s ease;
+        .manual-link {
+            margin-top: 30px;
+            padding: 15px 30px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid white;
+            border-radius: 25px;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
         }
-        
-        .custom-marker:hover {
-            transform: scale(1.1);
-            z-index: 1000 !important;
-        }
-        
-        /* 自定义滚动条 */
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-        
-        ::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 3px;
-        }
-        
-        ::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 3px;
-        }
-        
-        ::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8;
-        }
-        
-        #map-container {
-            position: relative;
-            z-index: 50;
-        }
-        
-        #map {
-            position: relative;
-            z-index: 10;
-        }
-        
-        /* 确保导航栏始终在最上层 */
-        header {
-            z-index: 1000;
-        }
-        
-        /* 调整地图控制器的z-index */
-        .absolute.top-4.right-4 {
-            z-index: 100;
+        .manual-link:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
         }
     </style>
 </head>
+<body>
+    <div class="container">
+        <h1>市场调研报告</h1>
+        <p>正在自动跳转到5G通信技术市场调研报告页面...</p>
+        <div class="loading"></div>
+        <p style="margin-top: 20px; font-size: 0.9rem;">
+            如果页面没有自动跳转，请点击下方链接
+        </p>
+        <a href="market-research-report.html" class="manual-link">
+            立即访问市场调研报告
+        </a>
+    </div>
 
-<body class="bg-light font-sans text-dark antialiased"
-    style="background-image: url('src/Background.jpg'); background-size: cover; background-position: center; background-attachment: fixed;">
-    <!-- 添加半透明遮罩层 -->
-    <div class="absolute inset-0 bg-black/20 z-[-1]"></div>
-    <header class="bg-white shadow-sm sticky top-0 z-[1000] transition-all duration-300">
-        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-            <div class="flex items-center space-x-2">
-                <i class="fa fa-map-marker text-primary text-2xl"></i>
-                <h1 class="text-xl font-bold text-primary">江门市数字地图</h1>
-            </div>
-            <nav class="hidden md:flex items-center space-x-8">
-                <a href="index.html" class="text-dark hover:text-primary transition-colors duration-200 font-medium">首页</a>
-                <a href="#popular-spots" class="text-dark hover:text-primary transition-colors duration-200 font-medium">热门景点</a>
-            
-                <a href="famous-people.html" class="text-dark hover:text-primary transition-colors duration-200 font-medium">名人风采</a>
-                <a href="micro-course.html" class="text-dark hover:text-primary transition-colors duration-200 font-medium">微课</a>
-                <a href="#contact" class="text-dark hover:text-primary transition-colors duration-200 font-medium">联系我们</a>
-            </nav>
-            <button class="md:hidden text-dark" id="menu-toggle">
-                <i class="fa fa-bars text-xl"></i>
-            </button>
-        </div>
-        <!-- 移动端菜单 -->
-        <div class="md:hidden hidden bg-white border-t" id="mobile-menu">
-            <div class="container mx-auto px-4 py-2 flex flex-col space-y-3">
-                <a href="index.html" class="py-2 text-dark hover:text-primary transition-colors duration-200 font-medium">首页</a>
-                <a href="#popular-spots"
-                    class="py-2 text-dark hover:text-primary transition-colors duration-200 font-medium">热门景点</a>
-                
-                <a href="famous-people.html"
-                    class="py-2 text-dark hover:text-primary transition-colors duration-200 font-medium">名人风采</a>
-                <a href="micro-course.html"
-                    class="py-2 text-dark hover:text-primary transition-colors duration-200 font-medium">微课</a>
-                <a href="#contact"
-                    class="py-2 text-dark hover:text-primary transition-colors duration-200 font-medium">联系我们</a>
-            </div>
-        </div>
-    </header>
-
-    <main class="container mx-auto px-4 py-8">
-        <!-- 网站介绍 -->
-        <section class="mb-8 text-center max-w-3xl mx-auto">
-            <h2 class="text-[clamp(1.8rem,4vw,2.5rem)] font-bold text-dark mb-4">探索中国侨都 - 江门</h2>
-            <p class="text-gray-600 text-lg mb-6">江门市位于广东省中南部，是著名的侨乡，拥有悠久的历史文化和丰富的旅游资源。通过本数字地图，您可以探索江门的各个特色地点和文化古迹。</p>
-            <div class="flex flex-wrap justify-center gap-3">
-                <button
-                    class="bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded-full shadow-lg shadow-primary/20 transition-all duration-300 flex items-center space-x-2"
-                    id="locate-jm">
-                    <i class="fa fa-map-o"></i>
-                    <span>定位江门</span>
-                </button>
-            </div>
-        </section>
-
-        <!-- 地图容器 -->
-        <section class="flex flex-col lg:flex-row gap-6">
-            <div id="map-container" class="w-full lg:w-3/4 relative overflow-hidden rounded-xl map-shadow transition-all duration-300">
-                <div id="map" class="w-full h-[600px] bg-map-bg"></div>
-                <!-- 地图控制器 -->
-                <div class="absolute top-4 right-4 bg-white p-2 rounded-lg shadow-lg z-10 transition-all duration-300">
-                    <button
-                        class="w-10 h-10 flex items-center justify-center text-primary hover:bg-primary/10 rounded-md transition-colors duration-200"
-                        id="zoom-in">
-                        <i class="fa fa-plus"></i>
-                    </button>
-                    <button
-                        class="w-10 h-10 flex items-center justify-center text-primary hover:bg-primary/10 rounded-md transition-colors duration-200"
-                        id="zoom-out">
-                        <i class="fa fa-minus"></i>
-                    </button>
-                    <button
-                        class="w-10 h-10 flex items-center justify-center text-primary hover:bg-primary/10 rounded-md transition-colors duration-200"
-                        id="reset-map">
-                        <i class="fa fa-refresh"></i>
-                    </button>
-                </div>
-            </div>
-
-            <!-- 地点信息面板 -->
-            <div class="w-full lg:w-1/4 bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-500"
-                id="location-info">
-                <div class="p-6">
-                    <div class="flex justify-between items-center mb-4">
-                        <h3 class="text-xl font-bold text-dark">地点信息</h3>
-                        <span class="text-xs px-2 py-1 bg-primary/10 text-primary rounded-full">
-                            探索侨乡
-                        </span>
-                    </div>
-                    <div id="info-content" class="space-y-4 opacity-0 transition-opacity duration-300">
-                        <!-- 初始占位信息 -->
-                        <div class="text-center py-16">
-                            <i class="fa fa-map-signs text-4xl text-gray-300 mb-4"></i>
-                            <p class="text-gray-500">点击地图上的标记点查看详细信息</p>
-                        </div>
-                        <!-- 动态内容将通过JavaScript插入 -->
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 热门景点 -->
-        <section class="mt-16">
-            <div class="flex justify-between items-center mb-8">
-                <h2 class="text-2xl font-bold text-dark">热门景点</h2>
-                <a href="all-spots.html"
-                    class="text-primary hover:text-primary/80 flex items-center space-x-1 transition-colors duration-200">
-                    <span>查看全部</span>
-                    <i class="fa fa-arrow-right"></i>
-                </a>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="popular-spots">
-                <!-- 热门景点卡片将通过JavaScript动态生成 -->
-            </div>
-        </section>
-    </main>
-
-    <footer class="bg-dark text-white py-12 mt-20" id="contact">
-        <div class="container mx-auto px-4">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div>
-                    <div class="flex items-center space-x-2 mb-4">
-                        <i class="fa fa-map-marker text-primary text-2xl"></i>
-                        <h3 class="text-xl font-bold">江门市数字地图</h3>
-                    </div>
-                    <p class="text-gray-400 mb-4">探索中国侨都的数字之旅，感受江门的历史文化魅力。</p>
-                    <div class="flex space-x-4">
-                        <a href="https://weixin.qq.com" class="text-gray-400 hover:text-primary transition-colors duration-200"><i
-                                class="fa fa-weixin text-xl"></i></a>
-                        <a href="https://weibo.com" class="text-gray-400 hover:text-primary transition-colors duration-200"><i
-                                class="fa fa-weibo text-xl"></i></a>
-                        <a href="https://instagram.com" class="text-gray-400 hover:text-primary transition-colors duration-200"><i
-                                class="fa fa-instagram text-xl"></i></a>
-                        <a href="https://youtube.com" class="text-gray-400 hover:text-primary transition-colors duration-200"><i
-                                class="fa fa-youtube-play text-xl"></i></a>
-                    </div>
-                </div>
-                <div>
-                    <h4 class="text-lg font-semibold mb-4">快速链接</h4>
-                    <ul class="space-y-2">
-                        <li><a href="index.html" class="text-gray-400 hover:text-white transition-colors duration-200">首页</a>
-                        </li>
-                        <li><a href="#popular-spots" class="text-gray-400 hover:text-white transition-colors duration-200">热门景点</a>
-                        </li>
-                       
-                        <li><a href="famous-people.html" class="text-gray-400 hover:text-white transition-colors duration-200">名人风采</a>
-                        </li>
-                        <li><a href="gallery.html" class="text-gray-400 hover:text-white transition-colors duration-200">图片画廊</a>
-                        </li>
-                        <li><a href="#contact" class="text-gray-400 hover:text-white transition-colors duration-200">联系我们</a>
-                        </li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="text-lg font-semibold mb-4">联系我们</h4>
-                    <ul class="space-y-3">
-                        <li class="flex items-start space-x-3">
-                            <i class="fa fa-map-marker text-primary mt-1"></i>
-                            <span class="text-gray-400">广东省江门市五邑大学</span>
-                        </li>
-                        <li class="flex items-center space-x-3">
-                            <i class="fa fa-phone text-primary"></i>
-                            <span class="text-gray-400">13536219649</span>
-                        </li>
-                        <li class="flex items-center space-x-3">
-                            <i class="fa fa-envelope text-primary"></i>
-                            <span class="text-gray-400">info@jiangmen-map.com</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="border-t border-gray-800 mt-10 pt-6 text-center text-gray-500">
-                <p>&copy; 2023 江门市数字地图. 保留所有权利.</p>
-            </div>
-        </div>
-    </footer>
-
-    <script src="js/map.js"></script>
+    <script>
+        // 等待3秒后自动跳转
+        setTimeout(function() {
+            window.location.href = 'market-research-report.html';
+        }, 3000);
+        
+        // 同时提供中文版本的重定向选项
+        const chineseRedirect = document.createElement('a');
+        chineseRedirect.href = '%E5%B8%82%E5%9C%BA%E8%B0%83%E7%A0%94%E6%8A%A5%E5%91%8A.html';
+        chineseRedirect.style.display = 'none';
+        document.body.appendChild(chineseRedirect);
+    </script>
 </body>
-
 </html>
