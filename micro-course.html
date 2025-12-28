@@ -190,6 +190,18 @@
             <p>&copy; 2023 江门市数字地图. 保留所有权利.</p>
         </div>
     </footer>
+
+    <script>
+        // 移动端菜单切换功能
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        if (menuToggle && mobileMenu) {
+            menuToggle.addEventListener('click', function() {
+                mobileMenu.classList.toggle('hidden');
+            });
+        }
+    </script>
 </body>
 
 </html>
