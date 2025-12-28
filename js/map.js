@@ -1,7 +1,7 @@
 // 等待DOM加载完成
 document.addEventListener('DOMContentLoaded', function () {
-    // 初始化地图 - 调整为陈氏人物相关区域，聚焦江门市蓬江区
-    const map = L.map('map').setView([22.590000, 113.098000], 14); // 双华陈氏人物区域坐标
+    // 初始化地图
+    const map = L.map('map');
 
     // 添加地图图层 - 使用国内稳定的高德地图瓦片服务
     const amapLayer = L.tileLayer('https://webrd0{s}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}', {
@@ -122,6 +122,18 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     ];
 
+    // 计算所有地点的边界，确保所有地点都出现在地图上
+    function calculateBounds() {
+        const bounds = L.latLngBounds();
+        locations.forEach(location => {
+            bounds.extend(location.coordinates);
+        });
+        return bounds;
+    }
+
+    // 获取所有地点的边界
+    const allLocationsBounds = calculateBounds();
+
     // 防抖函数 - 提高性能，避免频繁触发
     function debounce(func, wait) {
         let timeout;
@@ -190,6 +202,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // 添加标记到地图
     addMarkersToMap();
+
+    // 初始设置地图视图，确保所有标记可见
+    map.fitBounds(allLocationsBounds, { padding: [50, 50] });
 
     // 显示地点信息 - 优化性能并添加错误处理
     function showLocationInfo(location) {
