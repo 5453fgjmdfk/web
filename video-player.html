@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>视频播放 - 双华思政·陈氏文脉</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='%23165DFF'/><path d='M16 8L20 14L26 16L20 18L16 24L12 18L6 16L12 14L16 8Z' fill='white'/><circle cx='16' cy='16' r='4' fill='%23FF7D00'/></svg>" type="image/svg+xml">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #165DFF;
+        }
+        .text-primary { color: var(--primary) !important; }
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        }
+        .video-container {
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+        video::-webkit-media-controls-panel {
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+        }
+        /* 自定义滚动条 */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1a1a2e;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #3a3a5e;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #4a4a6e;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+    <!-- 导航栏 -->
+    <header class="bg-gray-900/80 backdrop-blur-sm sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fa fa-graduation-cap text-primary text-2xl"></i>
+                <h1 class="text-xl font-bold text-white" id="video-title">视频播放</h1>
+            </div>
+            <a href="micro-course.html" class="flex items-center space-x-2 text-gray-300 hover:text-white transition-colors duration-200">
+                <i class="fa fa-arrow-left"></i>
+                <span>返回微课</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- 视频播放区域 -->
+    <main class="flex-1 flex items-center justify-center p-4 md:p-8">
+        <div class="video-container bg-black rounded-2xl overflow-hidden max-w-5xl w-full">
+            <div class="relative aspect-video bg-gray-900">
+                <video id="video-player" class="w-full h-full" controls playsinline>
+                    您的浏览器不支持视频播放。
+                </video>
+            </div>
+            <div class="bg-gray-900 p-4 md:p-6">
+                <h2 id="video-name" class="text-xl md:text-2xl font-bold text-white mb-2"></h2>
+                <p class="text-gray-400 text-sm md:text-base" id="video-desc"></p>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-gray-900/80 py-4">
+        <div class="container mx-auto px-4 text-center">
+            <p class="text-gray-500 text-sm">&copy; 2024 双华思政·陈氏文脉</p>
+        </div>
+    </footer>
+
+    <script>
+        // 从URL参数获取视频信息
+        const urlParams = new URLSearchParams(window.location.search);
+        const videoSrc = urlParams.get('src');
+        const videoName = urlParams.get('name') || '未知视频';
+        const videoDesc = urlParams.get('desc') || '暂无描述';
+
+        // 设置页面标题和内容
+        document.getElementById('video-title').textContent = videoName;
+        document.getElementById('video-name').textContent = videoName;
+        document.getElementById('video-desc').textContent = videoDesc;
+
+        // 设置视频源
+        if (videoSrc) {
+            const videoPlayer = document.getElementById('video-player');
+            videoPlayer.src = videoSrc;
+            videoPlayer.play().catch(e => console.log('自动播放被阻止'));
+        } else {
+            document.getElementById('video-name').textContent = '视频未找到';
+            document.getElementById('video-desc').textContent = '请从微课页面选择要播放的视频';
+        }
+
+        // 键盘快捷键
+        document.addEventListener('keydown', function(e) {
+            const video = document.getElementById('video-player');
+            switch(e.code) {
+                case 'Space':
+                    e.preventDefault();
+                    video.paused ? video.play() : video.pause();
+                    break;
+                case 'ArrowLeft':
+                    video.currentTime -= 10;
+                    break;
+                case 'ArrowRight':
+                    video.currentTime += 10;
+                    break;
+                case 'ArrowUp':
+                    video.volume = Math.min(1, video.volume + 0.1);
+                    break;
+                case 'ArrowDown':
+                    video.volume = Math.max(0, video.volume - 0.1);
+                    break;
+                case 'KeyF':
+                    if (document.fullscreenElement) {
+                        document.exitFullscreen();
+                    } else {
+                        video.requestFullscreen();
+                    }
+                    break;
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+{
+  "dependencies": {
+    "gh-pages": "^6.3.0"
+  },
+  "name": "web",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "node -e \"const fs = require('fs'); if (!fs.existsSync('build')) fs.mkdirSync('build'); require('child_process').execSync('copy *.html build', {stdio: 'inherit'}); require('child_process').execSync('xcopy css build\\css /E /I', {stdio: 'inherit'}); require('child_process').execSync('xcopy js build\\js /E /I', {stdio: 'inherit'}); require('child_process').execSync('xcopy img build\\img /E /I', {stdio: 'inherit'}); require('child_process').execSync('xcopy src build\\src /E /I', {stdio: 'inherit'}); require('child_process').execSync('xcopy videos build\\videos /E /I', {stdio: 'inherit'});\"",
+    "deploy": "gh-pages -d build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
+}
